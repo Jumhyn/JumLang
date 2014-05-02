@@ -23,4 +23,8 @@
     return [[WordToken alloc] initWithType:type lexeme:lexeme];
 }
 
+-(NSString *)description {
+    return [NSString stringWithFormat:@"<%d: %@>", self.type, self.lexeme];
+}
+
 @end

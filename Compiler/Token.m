@@ -33,4 +33,8 @@
     return NO;
 }
 
+-(NSString *)description {
+    return [NSString stringWithFormat:@"<%d>", self.type];
+}
+
 @end

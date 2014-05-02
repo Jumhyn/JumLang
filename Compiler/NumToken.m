@@ -23,4 +23,8 @@
     return [[NumToken alloc] initWithValue:value];
 }
 
+-(NSString *)description {
+    return [NSString stringWithFormat:@"<%d: %ld>", self.type, self.value];
+}
+
 @end

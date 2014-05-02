@@ -18,4 +18,8 @@
 
 @property(nonatomic, retain) NSString *buffer;
 
+-(id)initWithString:(NSString *)string;
+
+-(TokenStream *)lex;
+
 @end
