@@ -16,6 +16,7 @@
 		B602709E1913237C00EA38B2 /* TokenStream.m in Sources */ = {isa = PBXBuildFile; fileRef = B602709D1913237C00EA38B2 /* TokenStream.m */; };
 		B60270A11913564700EA38B2 /* NumToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270A01913564700EA38B2 /* NumToken.m */; };
 		B60270A41913570600EA38B2 /* WordToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270A31913570600EA38B2 /* WordToken.m */; };
+		B60270A71913720300EA38B2 /* FloatToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270A61913720300EA38B2 /* FloatToken.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +50,8 @@
 		B60270A01913564700EA38B2 /* NumToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumToken.m; sourceTree = "<group>"; };
 		B60270A21913570600EA38B2 /* WordToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordToken.h; sourceTree = "<group>"; };
 		B60270A31913570600EA38B2 /* WordToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordToken.m; sourceTree = "<group>"; };
+		B60270A51913720300EA38B2 /* FloatToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatToken.h; sourceTree = "<group>"; };
+		B60270A61913720300EA38B2 /* FloatToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatToken.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,8 @@
 				B60270971913224400EA38B2 /* Token.m */,
 				B602709F1913564700EA38B2 /* NumToken.h */,
 				B60270A01913564700EA38B2 /* NumToken.m */,
+				B60270A51913720300EA38B2 /* FloatToken.h */,
+				B60270A61913720300EA38B2 /* FloatToken.m */,
 				B60270A21913570600EA38B2 /* WordToken.h */,
 				B60270A31913570600EA38B2 /* WordToken.m */,
 				B6027099191322F800EA38B2 /* Parser.h */,
@@ -175,6 +180,7 @@
 				B60270981913224400EA38B2 /* Token.m in Sources */,
 				B60270951913223200EA38B2 /* Lexer.m in Sources */,
 				B60270A11913564700EA38B2 /* NumToken.m in Sources */,
+				B60270A71913720300EA38B2 /* FloatToken.m in Sources */,
 				B6027089191321FF00EA38B2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

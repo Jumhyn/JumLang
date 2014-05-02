@@ -27,4 +27,15 @@
     return [NSString stringWithFormat:@"<%d: %ld>", self.type, self.value];
 }
 
+-(BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        if ([object isKindOfClass:[NumToken class]]) {
+            if(((NumToken *)object).value == self.value) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 @end

@@ -12,7 +12,7 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        Lexer *lex = [[Lexer alloc] initWithString:@"hello+9/* a comment!!! */+true// another comment! \n-false>3<4>=2!=100=x==y"];
+        Lexer *lex = [[Lexer alloc] initWithString:@"hello+9/* a comment!!! */+true// another comment! \n-false>3<4>=2!=100=x==y-3.5179"];
         TokenStream *stream = [lex lex];
         Token *t;
         while ((t = [stream nextToken])) {

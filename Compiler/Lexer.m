@@ -10,6 +10,7 @@
 #import "Token.h"
 #import "NumToken.h"
 #import "WordToken.h"
+#import "FloatToken.h"
 
 @implementation Lexer
 
@@ -88,6 +89,14 @@
             currentChar = [self nextCharacter];
         }
         while (isdigit(currentChar));
+        if (currentChar == '.') {
+            double doubleVal = (double) val;
+            double tenPow = 1.0;
+            while (isdigit((currentChar = [self nextCharacter]))) {
+                doubleVal = doubleVal + (currentChar - '0')/pow(10.0, tenPow++);
+            }
+            return [FloatToken tokenWithValue:doubleVal];
+        }
         return [NumToken tokenWithValue:val];
     }
     else if (isalpha(currentChar)) {

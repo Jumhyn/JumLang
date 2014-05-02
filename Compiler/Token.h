@@ -19,6 +19,7 @@ typedef enum {
     TOK_EQUAL,
     TOK_NEQUAL,
     TOK_NUM,
+    TOK_FLOAT,
     TOK_ID,
     TOK_TRUE,
     TOK_FALSE,
