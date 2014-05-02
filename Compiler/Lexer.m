@@ -41,7 +41,15 @@
 }
             
 -(Token *)nextToken {
-    unichar currentChar = [buffer characterAtIndex:characterIndex];
+    unichar currentChar = '\0';
+    @try {
+        currentChar = [buffer characterAtIndex:characterIndex];
+    }
+    @catch (NSException *exception) {
+        if ([exception.name isEqualToString:@"NSRangeException"]) {
+            return nil;
+        }
+    }
     do {
         if (currentChar == ' ' || currentChar == '\t') {
             continue;
@@ -54,12 +62,30 @@
             break;
         }
     }
-    while ((currentChar = [buffer characterAtIndex:++characterIndex]));
+    while ((currentChar = [self nextCharacter]));
+    if (currentChar == '/' && characterIndex < [buffer length] - 1) {
+        if ([buffer characterAtIndex:characterIndex+1] == '/') {
+            while ((currentChar = [self nextCharacter]) != '\n' && currentChar != '\0');
+            line++;
+            currentChar = [self nextCharacter];
+        }
+        else if ([buffer characterAtIndex:characterIndex+1] == '*') {
+            currentChar = [self nextCharacter];
+            while ((currentChar = [self nextCharacter]) != '\0') {
+                if (currentChar == '*'  && characterIndex < [buffer length] - 1) {
+                    if ((currentChar = [self nextCharacter]) == '/') {
+                        currentChar = [self nextCharacter];
+                        break;
+                    }
+                }
+            }
+        }
+    }
     if (isdigit(currentChar)) {
-        int val;
+        int val = 0;
         do {
             val = val*10 + (currentChar - '0');
-            currentChar = [buffer characterAtIndex:++characterIndex];
+            currentChar = [self nextCharacter];
         }
         while (isdigit(currentChar));
         return [NumToken tokenWithValue:val];
@@ -68,7 +94,7 @@
         NSMutableString *wordBuffer = [[NSMutableString alloc] initWithString:@""];
         do {
             [wordBuffer appendString:[NSString stringWithCharacters:&currentChar length:1]];
-            currentChar = [buffer characterAtIndex:++characterIndex];
+            currentChar = [self nextCharacter];
         }
         while (isalpha(currentChar));
         WordToken *tok = [wordDict objectForKey:wordBuffer];
@@ -81,8 +107,57 @@
             return ret;
         }
     }
+    else if (currentChar == '<') {
+        if ((currentChar = [self nextCharacter]) == '=') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_LEQUAL];
+        }
+        else {
+            return [Token tokenWithType:'<'];
+        }
+    }
+    else if (currentChar == '>') {
+        if ((currentChar = [self nextCharacter]) == '=') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_GEQUAL];
+        }
+        else {
+            return [Token tokenWithType:'>'];
+        }
+    }
+    else if (currentChar == '=') {
+        if ((currentChar = [self nextCharacter]) == '=') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_EQUAL];
+        }
+        else {
+            return [Token tokenWithType:'='];
+        }
+    }
+    else if (currentChar == '!') {
+        if ((currentChar = [self nextCharacter]) == '=') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_NEQUAL];
+        }
+        else {
+            NSException *exception = [[NSException alloc] initWithName:@"Syntax error" reason:@"Error in syntax" userInfo:nil];
+            [exception raise];
+        }
+    }
     else {
+        characterIndex++;
         return [Token tokenWithType:currentChar];
+    }
+}
+
+-(unichar)nextCharacter {
+    @try {
+        return [buffer characterAtIndex:++characterIndex];
+    }
+    @catch(NSException *exception) {
+        if ([exception.name isEqualToString:@"NSRangeException"]) {
+            return '\0';
+        }
     }
 }
 

@@ -11,6 +11,13 @@
 typedef enum {
     TOK_PLUS = '+',
     TOK_MINUS = '-',
+    TOK_LESS = '<',
+    TOK_GREATER = '>',
+    TOK_ASSIGN = '=',
+    TOK_LEQUAL = 256,
+    TOK_GEQUAL,
+    TOK_EQUAL,
+    TOK_NEQUAL,
     TOK_NUM,
     TOK_ID,
     TOK_TRUE,

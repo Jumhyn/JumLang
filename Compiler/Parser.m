@@ -7,6 +7,7 @@
 //
 
 #import "Parser.h"
+#import "NumToken.h"
 
 @implementation Parser
 
@@ -41,7 +42,7 @@
 
 -(void)term {
     if (lookahead.type == TOK_NUM) {
-        putchar((int)lookahead.value+'0');
+        putchar((int)((NumToken *)lookahead).value+'0');
         [self match:TOK_NUM];
     }
 }
