@@ -10,6 +10,12 @@
 		B6027086191321FF00EA38B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6027085191321FF00EA38B2 /* Foundation.framework */; };
 		B6027089191321FF00EA38B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6027088191321FF00EA38B2 /* main.m */; };
 		B602708D191321FF00EA38B2 /* Compiler.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B602708C191321FF00EA38B2 /* Compiler.1 */; };
+		B60270951913223200EA38B2 /* Lexer.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270941913223200EA38B2 /* Lexer.m */; };
+		B60270981913224400EA38B2 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270971913224400EA38B2 /* Token.m */; };
+		B602709B191322F800EA38B2 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = B602709A191322F800EA38B2 /* Parser.m */; };
+		B602709E1913237C00EA38B2 /* TokenStream.m in Sources */ = {isa = PBXBuildFile; fileRef = B602709D1913237C00EA38B2 /* TokenStream.m */; };
+		B60270A11913564700EA38B2 /* NumToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270A01913564700EA38B2 /* NumToken.m */; };
+		B60270A41913570600EA38B2 /* WordToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270A31913570600EA38B2 /* WordToken.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +37,18 @@
 		B6027088191321FF00EA38B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B602708B191321FF00EA38B2 /* Compiler-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Compiler-Prefix.pch"; sourceTree = "<group>"; };
 		B602708C191321FF00EA38B2 /* Compiler.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Compiler.1; sourceTree = "<group>"; };
+		B60270931913223200EA38B2 /* Lexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lexer.h; sourceTree = "<group>"; };
+		B60270941913223200EA38B2 /* Lexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lexer.m; sourceTree = "<group>"; };
+		B60270961913224400EA38B2 /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
+		B60270971913224400EA38B2 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
+		B6027099191322F800EA38B2 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		B602709A191322F800EA38B2 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		B602709C1913237C00EA38B2 /* TokenStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenStream.h; sourceTree = "<group>"; };
+		B602709D1913237C00EA38B2 /* TokenStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenStream.m; sourceTree = "<group>"; };
+		B602709F1913564700EA38B2 /* NumToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumToken.h; sourceTree = "<group>"; };
+		B60270A01913564700EA38B2 /* NumToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumToken.m; sourceTree = "<group>"; };
+		B60270A21913570600EA38B2 /* WordToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordToken.h; sourceTree = "<group>"; };
+		B60270A31913570600EA38B2 /* WordToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordToken.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +92,18 @@
 			isa = PBXGroup;
 			children = (
 				B6027088191321FF00EA38B2 /* main.m */,
+				B60270931913223200EA38B2 /* Lexer.h */,
+				B60270941913223200EA38B2 /* Lexer.m */,
+				B60270961913224400EA38B2 /* Token.h */,
+				B60270971913224400EA38B2 /* Token.m */,
+				B602709F1913564700EA38B2 /* NumToken.h */,
+				B60270A01913564700EA38B2 /* NumToken.m */,
+				B60270A21913570600EA38B2 /* WordToken.h */,
+				B60270A31913570600EA38B2 /* WordToken.m */,
+				B6027099191322F800EA38B2 /* Parser.h */,
+				B602709A191322F800EA38B2 /* Parser.m */,
+				B602709C1913237C00EA38B2 /* TokenStream.h */,
+				B602709D1913237C00EA38B2 /* TokenStream.m */,
 				B602708C191321FF00EA38B2 /* Compiler.1 */,
 				B602708A191321FF00EA38B2 /* Supporting Files */,
 			);
@@ -139,6 +169,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B602709E1913237C00EA38B2 /* TokenStream.m in Sources */,
+				B60270A41913570600EA38B2 /* WordToken.m in Sources */,
+				B602709B191322F800EA38B2 /* Parser.m in Sources */,
+				B60270981913224400EA38B2 /* Token.m in Sources */,
+				B60270951913223200EA38B2 /* Lexer.m in Sources */,
+				B60270A11913564700EA38B2 /* NumToken.m in Sources */,
 				B6027089191321FF00EA38B2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
