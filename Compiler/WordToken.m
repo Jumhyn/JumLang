@@ -27,4 +27,15 @@
     return [NSString stringWithFormat:@"<%d: %@>", self.type, self.lexeme];
 }
 
+-(BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        if ([object isKindOfClass:[WordToken class]]) {
+            if([((WordToken *)object).lexeme isEqualToString:self.lexeme]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 @end

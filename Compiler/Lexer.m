@@ -11,6 +11,7 @@
 #import "NumToken.h"
 #import "WordToken.h"
 #import "FloatToken.h"
+#import "TypeToken.h"
 
 @implementation Lexer
 
@@ -25,6 +26,14 @@
         stream = [[TokenStream alloc] init];
         [self reserveWord:[WordToken tokenWithType:TOK_TRUE lexeme:@"true"]];
         [self reserveWord:[WordToken tokenWithType:TOK_FALSE lexeme:@"false"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_IF lexeme:@"if"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_ELSE lexeme:@"else"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_WHILE lexeme:@"while"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_DO lexeme:@"do"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_BREAK lexeme:@"break"]];
+        [self reserveWord:TypeToken.charType];
+        [self reserveWord:TypeToken.intType];
+        [self reserveWord:TypeToken.floatType];
     }
     return self;
 }

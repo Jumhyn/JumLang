@@ -23,6 +23,12 @@ typedef enum {
     TOK_ID,
     TOK_TRUE,
     TOK_FALSE,
+    TOK_TYPE,
+    TOK_IF,
+    TOK_ELSE,
+    TOK_WHILE,
+    TOK_DO,
+    TOK_BREAK,
 } tokenType;
 
 @interface Token : NSObject
