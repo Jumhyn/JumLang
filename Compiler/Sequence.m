@@ -22,10 +22,15 @@
 }
 
 -(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
-    NSUInteger labelNumber = [self newLabel];
-    [stmt1 generateCodeWithBeforeLabelNumber:beforeLabelNumber afterLabelNumber:labelNumber];
-    [self emitLabel:labelNumber];
-    [stmt2 generateCodeWithBeforeLabelNumber:labelNumber afterLabelNumber:afterLabelNumber];
+    if (self.stmt2) {
+        NSUInteger labelNumber = [self newLabel];
+        [stmt1 generateCodeWithBeforeLabelNumber:beforeLabelNumber afterLabelNumber:labelNumber];
+        [self emitLabel:labelNumber];
+        [stmt2 generateCodeWithBeforeLabelNumber:labelNumber afterLabelNumber:afterLabelNumber];
+    }
+    else {
+        [stmt1 generateCodeWithBeforeLabelNumber:beforeLabelNumber afterLabelNumber:afterLabelNumber];
+    }
 }
 
 @end

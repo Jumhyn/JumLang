@@ -17,7 +17,11 @@ int main(int argc, const char * argv[]) {
         Lexer *lex = [[Lexer alloc] initWithString:@"{\
                                                           int hello;\
                                                           hello = 5;\
-                                                          if (hello > 4) {\
+                                                          if (hello + 3 > hello*-4) {\
+                                                              int test;\
+                                                              float testalso;\
+                                                              test = hello + 3;\
+                                                              testalso = 3.0 * test + 3 / 5.0;\
                                                               hello = 6;\
                                                           }\
                                                      }"];

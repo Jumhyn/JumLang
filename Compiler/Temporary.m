@@ -15,8 +15,10 @@ static NSUInteger count = 0;
 @synthesize number;
 
 -(id)initWithType:(TypeToken *)newType {
-    return self = [super initWithOperator:[WordToken tokenWithType:TOK_TEMP lexeme:@"t"] type:newType];
-    number = ++count;
+    if (self = [super initWithOperator:[WordToken tokenWithType:TOK_TEMP lexeme:@"t"] type:newType]) {
+        self.number = ++count;
+    }
+    return self;
 }
 
 -(NSString *)description {

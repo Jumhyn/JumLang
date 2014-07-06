@@ -24,7 +24,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %@>", [super description], self.lexeme];
+    return [NSString stringWithFormat:@"%@", self.lexeme];
 }
 
 -(BOOL)isEqual:(id)object {

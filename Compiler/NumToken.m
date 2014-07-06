@@ -24,7 +24,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %ld>", [super description], self.value];
+    return [NSString stringWithFormat:@"%ld", self.value];
 }
 
 -(BOOL)isEqual:(id)object {
