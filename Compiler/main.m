@@ -11,12 +11,14 @@
 #import "TokenStream.h"
 #import "Statement.h"
 #import "Parser.h"
+#import "Function.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        Lexer *lex = [[Lexer alloc] initWithString:@"{\
+        Lexer *lex = [[Lexer alloc] initWithString:@"int test(int a, float b) {\
                                                           int hello;\
                                                           hello = 5;\
+                                                          hello = test(2, 1);\
                                                           if (hello + 3 > hello*-4) {\
                                                               int test;\
                                                               float testalso;\
@@ -26,7 +28,8 @@ int main(int argc, const char * argv[]) {
                                                           }\
                                                      }"];
         TokenStream *stream = [lex lex];
-        Statement *s = [[[Parser alloc] initWithTokenStream:stream] program];
+        NSArray *s = [[[Parser alloc] initWithTokenStream:stream] program];
+        [s[0] generateCode];
         Token *t;
         while ((t = [stream nextToken])) {
             NSLog(@"%@", t);

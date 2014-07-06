@@ -36,6 +36,7 @@
         [self reserveWord:[WordToken tokenWithType:TOK_WHILE lexeme:@"while"]];
         [self reserveWord:[WordToken tokenWithType:TOK_DO lexeme:@"do"]];
         [self reserveWord:[WordToken tokenWithType:TOK_BREAK lexeme:@"break"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_RETURN lexeme:@"return"]];
         [self reserveWord:TypeToken.charType];
         [self reserveWord:TypeToken.intType];
         [self reserveWord:TypeToken.floatType];

@@ -19,6 +19,8 @@
 +(TypeToken *)intType;
 +(TypeToken *)floatType;
 +(TypeToken *)boolType;
++(TypeToken *)functionType;
++(TypeToken *)voidType;
 
 @end
 

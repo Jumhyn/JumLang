@@ -12,15 +12,17 @@
 @class Statement;
 @class TokenStream;
 @class Environment;
+@class Prototype;
 
 @interface Parser : NSObject
 
 @property(nonatomic, retain) Token *lookahead;
 @property(nonatomic, retain) TokenStream *stream;
 @property(nonatomic, retain) Environment *topEnvironment;
+@property(nonatomic, retain) Prototype *currentFunc;
 @property(nonatomic, assign) NSInteger usedSpace;
 
 -(id)initWithTokenStream:(TokenStream *)newStream;
--(Statement *)program;
+-(NSArray *)program;
 
 @end

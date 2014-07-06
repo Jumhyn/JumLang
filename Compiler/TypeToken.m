@@ -63,4 +63,20 @@
     return boolType;
 }
 
++(TypeToken *)functionType {
+    static TypeToken *functionType = nil;
+    if (functionType == nil) {
+        functionType = [[TypeToken alloc] initWithType:TOK_TYPE lexeme:@"" width:0];
+    }
+    return functionType;
+}
+
++(TypeToken *)voidType {
+    static TypeToken *voidType = nil;
+    if (voidType == nil) {
+        voidType = [[TypeToken alloc] initWithType:TOK_TYPE lexeme:@"void" width:0];
+    }
+    return voidType;
+}
+
 @end

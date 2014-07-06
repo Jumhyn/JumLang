@@ -40,6 +40,7 @@ typedef enum {
     TOK_WHILE,
     TOK_DO,
     TOK_BREAK,
+    TOK_RETURN,
     TOK_TEMP,
 } tokenType;
 

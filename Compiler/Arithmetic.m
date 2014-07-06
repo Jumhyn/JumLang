@@ -28,7 +28,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@ %@", expr1.description, self.operator.description, expr2.description];
+    return [NSString stringWithFormat:@"%@ %@ %@", expr1, self.operator, expr2];
 }
 
 @end

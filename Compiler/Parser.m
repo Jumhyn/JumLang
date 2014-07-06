@@ -30,12 +30,17 @@
 #import "Relation.h"
 #import "And.h"
 #import "Or.h"
+#import "Function.h"
+#import "Prototype.h"
+#import "CallExpression.h"
+#import "ReturnStatement.h"
 
 @implementation Parser
 
 @synthesize lookahead;
 @synthesize stream;
 @synthesize topEnvironment;
+@synthesize currentFunc;
 @synthesize usedSpace;
 
 -(void)error:(NSString *)error {
@@ -51,23 +56,63 @@
     return self;
 }
 
--(Statement *)program {
-    Statement *program = [self block];
-    NSUInteger begin = program.newLabel;
-    NSUInteger after = program.newLabel;
-    [program emitLabel:begin];
-    [program generateCodeWithBeforeLabelNumber:begin afterLabelNumber:after];
-    [program emitLabel:after];
-    return program;
+-(NSArray *)program {
+    Environment *savedEnvironment = topEnvironment;
+    topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
+    NSMutableArray *functionArray = [[NSMutableArray alloc] init];
+    do {
+        [functionArray addObject:[self function]];
+    } while (lookahead.type == TOK_TYPE);
+    topEnvironment = savedEnvironment;
+    return functionArray;
+}
+
+-(Function *)function {
+    Environment *savedEnvironment = topEnvironment;
+    topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
+    Prototype *proto = [self prototype];
+    currentFunc = proto;
+    [savedEnvironment setIdentifier:proto.identifier forToken:proto.identifier.operator];
+    [self match:'{'];
+    [self declarations];
+    Statement *stmt = [self sequence];
+    [self match:'}'];
+    topEnvironment = savedEnvironment;
+    return [[Function alloc] initWithSignature:proto body:stmt];
+}
+
+-(Prototype *)prototype {
+    TypeToken *typeTok = [self type];
+    WordToken *funcIdTok = (WordToken *)lookahead;
+    [self match:TOK_ID];
+    [self match:'('];
+    NSMutableArray *args = [[NSMutableArray alloc] init];
+    while (lookahead.type == TOK_TYPE) {
+        TypeToken *t = [self type];
+        Token *idTok = lookahead;
+        [self match:TOK_ID];
+        usedSpace -= t.width;
+        Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+        [args addObject:identifier];
+        [topEnvironment setIdentifier:identifier forToken:idTok];
+        if (lookahead.type == ')') {
+            break;
+        }
+        [self match:','];
+    }
+    usedSpace = 0;
+    [self match:')'];
+    Identifier *funcIdentifier = [[Identifier alloc] initWithOperator:funcIdTok type:typeTok offset:0];
+    return [[Prototype alloc] initWithIdentifier:funcIdentifier arguments:[NSArray arrayWithArray:args]];
 }
 
 -(Statement *)block {
-    [self match:TOK_LCURL];
+    [self match:'{'];
     Environment *savedEnvironment = topEnvironment;
     topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
     [self declarations];
     Statement *stmt = [self sequence];
-    [self match:TOK_RCURL];
+    [self match:'}'];
     topEnvironment = savedEnvironment;
     return stmt;
 }
@@ -120,6 +165,11 @@
             expr = [self expression];
             [self match:';'];
             return [[DoStatement alloc]initWithStatement:stmt1 expression:expr];
+        case TOK_RETURN:
+            [self match:TOK_RETURN];
+            expr = [self or];
+            [self match:';'];
+            return [[ReturnStatement alloc] initWithExpression:expr];
         case '{':
             return [self block];
         default:
@@ -247,6 +297,20 @@
         case TOK_ID: {
             Identifier *identifier = [topEnvironment identifierForToken:lookahead];
             [self match:TOK_ID];
+            if (lookahead.type == '(') {
+                [self match:'('];
+                NSMutableArray *args = [[NSMutableArray alloc] init];
+                while (1) {
+                    Expression *arg = [self or];
+                    [args addObject:arg];
+                    if (lookahead.type == ')') {
+                        break;
+                    }
+                    [self match:','];
+                }
+                [self match:')'];
+                return [[CallExpression alloc] initWithIdentifier:identifier arguments:args];
+            }
             return identifier;
         }
         default:
@@ -267,7 +331,7 @@
 
 -(NSString *)stringForType:(tokenType)type {
     if (type < 128) {
-        return [NSString stringWithFormat:@"%c", (char)type];
+        return [NSString stringWithFormat:@"'%c'", (char)type];
     }
     else {
         switch (type) {
