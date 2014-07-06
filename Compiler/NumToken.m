@@ -24,7 +24,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"<%d: %ld>", self.type, self.value];
+    return [NSString stringWithFormat:@"<%@: %ld>", [super description], self.value];
 }
 
 -(BOOL)isEqual:(id)object {
@@ -36,6 +36,14 @@
         }
     }
     return NO;
+}
+
+-(id)copyWithZone:(NSZone *)zone {
+    NumToken *copy = [super copyWithZone:zone];
+    if (copy) {
+        copy.value = self.value;
+    }
+    return copy;
 }
 
 @end

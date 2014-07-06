@@ -17,4 +17,9 @@
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType;
 
+-(Expression *)generateRHS;
+-(Expression *)reduce;
+-(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
+-(void)emitJumpsForTest:(NSString *)test TrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
+
 @end

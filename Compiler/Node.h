@@ -10,6 +10,11 @@
 
 @interface Node : NSObject
 
+@property(nonatomic, assign) NSUInteger lineNumber;
+
 -(void)error:(NSString *)error;
+-(NSUInteger)newLabel;
+-(void)emitLabel:(NSUInteger)label;
+-(void)emit:(NSString *)string;
 
 @end

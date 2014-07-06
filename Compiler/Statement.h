@@ -10,4 +10,11 @@
 
 @interface Statement : Node
 
+@property(nonatomic, assign) NSUInteger savedAfterLabelNumber;
+
+-(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber;
+
++(Statement *)enclosing;
++(void)setEnclosing:(Statement *)newEnclosing;
+
 @end

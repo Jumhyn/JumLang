@@ -10,4 +10,20 @@
 
 @implementation Statement
 
+@synthesize savedAfterLabelNumber;
+
+-(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+
+}
+
+static Statement *enclosing = nil;
+
++(Statement *)enclosing {
+    return enclosing;
+}
+
++(void)setEnclosing:(Statement *)newEnclosing {
+    enclosing = newEnclosing;
+}
+
 @end

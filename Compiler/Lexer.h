@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TokenStream.h"
+
+@class TokenStream;
+@class Token;
 
 @interface Lexer : NSObject {
     NSUInteger line;
@@ -21,5 +23,6 @@
 -(id)initWithString:(NSString *)string;
 
 -(TokenStream *)lex;
+-(Token *)nextToken;
 
 @end

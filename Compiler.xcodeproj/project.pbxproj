@@ -28,6 +28,17 @@
 		B60270C61915B55000EA38B2 /* Identifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270C51915B55000EA38B2 /* Identifier.m */; };
 		B60270C91915B69800EA38B2 /* Operator.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270C81915B69800EA38B2 /* Operator.m */; };
 		B60270CC1915B6D400EA38B2 /* Arithmetic.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270CB1915B6D400EA38B2 /* Arithmetic.m */; };
+		B6C3D3191964D74E00B65626 /* Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D3181964D74E00B65626 /* Environment.m */; };
+		B6C3D31C1964E49400B65626 /* Temporary.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D31B1964E49400B65626 /* Temporary.m */; };
+		B6C3D31F1964E96500B65626 /* Unary.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D31E1964E96500B65626 /* Unary.m */; };
+		B6C3D3221965217900B65626 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D3211965217900B65626 /* Constant.m */; };
+		B6C3D325196527CA00B65626 /* Logical.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D324196527CA00B65626 /* Logical.m */; };
+		B6C3D32819652E9100B65626 /* Or.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D32719652E9100B65626 /* Or.m */; };
+		B6C3D32B19652F3900B65626 /* And.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D32A19652F3900B65626 /* And.m */; };
+		B6C3D32E1965304900B65626 /* Not.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D32D1965304900B65626 /* Not.m */; };
+		B6C3D3311965310500B65626 /* Relation.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D3301965310500B65626 /* Relation.m */; };
+		B6C3D33419677D7A00B65626 /* AssignStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D33319677D7A00B65626 /* AssignStatement.m */; };
+		B6C3D3371967810800B65626 /* BreakStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D3361967810800B65626 /* BreakStatement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +96,28 @@
 		B60270C81915B69800EA38B2 /* Operator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operator.m; sourceTree = "<group>"; };
 		B60270CA1915B6D400EA38B2 /* Arithmetic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arithmetic.h; sourceTree = "<group>"; };
 		B60270CB1915B6D400EA38B2 /* Arithmetic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arithmetic.m; sourceTree = "<group>"; };
+		B6C3D3171964D74E00B65626 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Environment.h; sourceTree = "<group>"; };
+		B6C3D3181964D74E00B65626 /* Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Environment.m; sourceTree = "<group>"; };
+		B6C3D31A1964E49400B65626 /* Temporary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Temporary.h; sourceTree = "<group>"; };
+		B6C3D31B1964E49400B65626 /* Temporary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Temporary.m; sourceTree = "<group>"; };
+		B6C3D31D1964E96500B65626 /* Unary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unary.h; sourceTree = "<group>"; };
+		B6C3D31E1964E96500B65626 /* Unary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Unary.m; sourceTree = "<group>"; };
+		B6C3D3201965217900B65626 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		B6C3D3211965217900B65626 /* Constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constant.m; sourceTree = "<group>"; };
+		B6C3D323196527CA00B65626 /* Logical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logical.h; sourceTree = "<group>"; };
+		B6C3D324196527CA00B65626 /* Logical.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logical.m; sourceTree = "<group>"; };
+		B6C3D32619652E9100B65626 /* Or.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Or.h; sourceTree = "<group>"; };
+		B6C3D32719652E9100B65626 /* Or.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Or.m; sourceTree = "<group>"; };
+		B6C3D32919652F3900B65626 /* And.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = And.h; sourceTree = "<group>"; };
+		B6C3D32A19652F3900B65626 /* And.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = And.m; sourceTree = "<group>"; };
+		B6C3D32C1965304900B65626 /* Not.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Not.h; sourceTree = "<group>"; };
+		B6C3D32D1965304900B65626 /* Not.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Not.m; sourceTree = "<group>"; };
+		B6C3D32F1965310500B65626 /* Relation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Relation.h; sourceTree = "<group>"; };
+		B6C3D3301965310500B65626 /* Relation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Relation.m; sourceTree = "<group>"; };
+		B6C3D33219677D7A00B65626 /* AssignStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignStatement.h; sourceTree = "<group>"; };
+		B6C3D33319677D7A00B65626 /* AssignStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignStatement.m; sourceTree = "<group>"; };
+		B6C3D3351967810800B65626 /* BreakStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BreakStatement.h; sourceTree = "<group>"; };
+		B6C3D3361967810800B65626 /* BreakStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BreakStatement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +163,8 @@
 				B60270A91914B44600EA38B2 /* Nodes */,
 				B60270A81914B43300EA38B2 /* Tokens */,
 				B6027088191321FF00EA38B2 /* main.m */,
+				B6C3D3171964D74E00B65626 /* Environment.h */,
+				B6C3D3181964D74E00B65626 /* Environment.m */,
 				B60270931913223200EA38B2 /* Lexer.h */,
 				B60270941913223200EA38B2 /* Lexer.m */,
 				B6027099191322F800EA38B2 /* Parser.h */,
@@ -191,6 +226,10 @@
 				B60270BA19157CD200EA38B2 /* WhileStatement.m */,
 				B60270BC19157CF700EA38B2 /* DoStatement.h */,
 				B60270BD19157CF700EA38B2 /* DoStatement.m */,
+				B6C3D33219677D7A00B65626 /* AssignStatement.h */,
+				B6C3D33319677D7A00B65626 /* AssignStatement.m */,
+				B6C3D3351967810800B65626 /* BreakStatement.h */,
+				B6C3D3361967810800B65626 /* BreakStatement.m */,
 			);
 			name = Statements;
 			sourceTree = "<group>";
@@ -206,6 +245,22 @@
 				B60270C81915B69800EA38B2 /* Operator.m */,
 				B60270CA1915B6D400EA38B2 /* Arithmetic.h */,
 				B60270CB1915B6D400EA38B2 /* Arithmetic.m */,
+				B6C3D31A1964E49400B65626 /* Temporary.h */,
+				B6C3D31B1964E49400B65626 /* Temporary.m */,
+				B6C3D31D1964E96500B65626 /* Unary.h */,
+				B6C3D31E1964E96500B65626 /* Unary.m */,
+				B6C3D3201965217900B65626 /* Constant.h */,
+				B6C3D3211965217900B65626 /* Constant.m */,
+				B6C3D323196527CA00B65626 /* Logical.h */,
+				B6C3D324196527CA00B65626 /* Logical.m */,
+				B6C3D32619652E9100B65626 /* Or.h */,
+				B6C3D32719652E9100B65626 /* Or.m */,
+				B6C3D32919652F3900B65626 /* And.h */,
+				B6C3D32A19652F3900B65626 /* And.m */,
+				B6C3D32C1965304900B65626 /* Not.h */,
+				B6C3D32D1965304900B65626 /* Not.m */,
+				B6C3D32F1965310500B65626 /* Relation.h */,
+				B6C3D3301965310500B65626 /* Relation.m */,
 			);
 			name = Expressions;
 			sourceTree = "<group>";
@@ -261,25 +316,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6C3D33419677D7A00B65626 /* AssignStatement.m in Sources */,
 				B602709E1913237C00EA38B2 /* TokenStream.m in Sources */,
+				B6C3D3191964D74E00B65626 /* Environment.m in Sources */,
 				B60270BB19157CD200EA38B2 /* WhileStatement.m in Sources */,
+				B6C3D32B19652F3900B65626 /* And.m in Sources */,
+				B6C3D32819652E9100B65626 /* Or.m in Sources */,
 				B60270C61915B55000EA38B2 /* Identifier.m in Sources */,
+				B6C3D3371967810800B65626 /* BreakStatement.m in Sources */,
 				B60270A41913570600EA38B2 /* WordToken.m in Sources */,
 				B60270B519157B1800EA38B2 /* Sequence.m in Sources */,
 				B602709B191322F800EA38B2 /* Parser.m in Sources */,
 				B60270CC1915B6D400EA38B2 /* Arithmetic.m in Sources */,
 				B60270AF1915783A00EA38B2 /* Statement.m in Sources */,
+				B6C3D3221965217900B65626 /* Constant.m in Sources */,
+				B6C3D32E1965304900B65626 /* Not.m in Sources */,
 				B60270C91915B69800EA38B2 /* Operator.m in Sources */,
 				B60270981913224400EA38B2 /* Token.m in Sources */,
 				B60270951913223200EA38B2 /* Lexer.m in Sources */,
 				B60270AC1915782A00EA38B2 /* Node.m in Sources */,
 				B60270C31915ADDE00EA38B2 /* TypeToken.m in Sources */,
 				B60270A11913564700EA38B2 /* NumToken.m in Sources */,
+				B6C3D31F1964E96500B65626 /* Unary.m in Sources */,
+				B6C3D31C1964E49400B65626 /* Temporary.m in Sources */,
 				B60270A71913720300EA38B2 /* FloatToken.m in Sources */,
 				B60270B21915784600EA38B2 /* Expression.m in Sources */,
+				B6C3D3311965310500B65626 /* Relation.m in Sources */,
 				B60270BE19157CF700EA38B2 /* DoStatement.m in Sources */,
 				B6027089191321FF00EA38B2 /* main.m in Sources */,
 				B60270B819157CB900EA38B2 /* IfStatement.m in Sources */,
+				B6C3D325196527CA00B65626 /* Logical.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +459,7 @@
 				B6027092191321FF00EA38B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

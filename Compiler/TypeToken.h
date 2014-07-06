@@ -12,9 +12,13 @@
     size_t width;
 }
 
+@property(nonatomic, readonly) BOOL isNumeric;
+@property(nonatomic, readonly) size_t width;
+
 +(TypeToken *)charType;
 +(TypeToken *)intType;
 +(TypeToken *)floatType;
++(TypeToken *)boolType;
 
 @end
 

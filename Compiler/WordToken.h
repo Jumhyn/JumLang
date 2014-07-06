@@ -15,4 +15,7 @@
 -(id)initWithType:(tokenType)newType lexeme:(NSString *)newLexeme;
 +(WordToken *)tokenWithType:(tokenType)type lexeme:(NSString *)lexeme;
 
++(WordToken *)trueToken;
++(WordToken *)falseToken;
+
 @end

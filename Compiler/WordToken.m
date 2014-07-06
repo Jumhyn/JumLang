@@ -24,7 +24,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"<%d: %@>", self.type, self.lexeme];
+    return [NSString stringWithFormat:@"<%@: %@>", [super description], self.lexeme];
 }
 
 -(BOOL)isEqual:(id)object {
@@ -36,6 +36,34 @@
         }
     }
     return NO;
+}
+
+-(id)copyWithZone:(NSZone *)zone {
+    WordToken *copy = [super copyWithZone:zone];
+    if (copy) {
+        copy.lexeme = [self.lexeme copyWithZone:zone];
+    }
+    return copy;
+}
+
+-(NSUInteger)hash {
+    return [super hash] * [lexeme hash];
+}
+
++(WordToken *)trueToken {
+    static WordToken *trueToken = nil;
+    if (trueToken == nil) {
+        trueToken = [WordToken tokenWithType:TOK_TRUE lexeme:@"true"];
+    }
+    return trueToken;
+}
+
++(WordToken *)falseToken {
+    static WordToken *falseToken = nil;
+    if (falseToken == nil) {
+        falseToken = [WordToken tokenWithType:TOK_FALSE lexeme:@"false"];
+    }
+    return falseToken;
 }
 
 @end

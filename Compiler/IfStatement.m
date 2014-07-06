@@ -21,4 +21,11 @@
     return self;
 }
 
+-(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+    NSUInteger label = [self newLabel];
+    [expr jumpingForTrueLabelNumber:0 falseLabelNumber:afterLabelNumber];
+    [self emitLabel:label];
+    [stmt generateCodeWithBeforeLabelNumber:label afterLabelNumber:afterLabelNumber];
+}
+
 @end

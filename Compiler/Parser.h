@@ -7,12 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Token.h"
-#import "TokenStream.h"
+
+@class Token;
+@class Statement;
+@class TokenStream;
+@class Environment;
 
 @interface Parser : NSObject
 
 @property(nonatomic, retain) Token *lookahead;
 @property(nonatomic, retain) TokenStream *stream;
+@property(nonatomic, retain) Environment *topEnvironment;
+@property(nonatomic, assign) NSInteger usedSpace;
+
+-(id)initWithTokenStream:(TokenStream *)newStream;
+-(Statement *)program;
 
 @end

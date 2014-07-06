@@ -9,12 +9,23 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
+    TOK_ANY = -1,
     TOK_PLUS = '+',
     TOK_MINUS = '-',
     TOK_LESS = '<',
     TOK_GREATER = '>',
     TOK_ASSIGN = '=',
+    TOK_LCURL = '{',
+    TOK_RCURL = '}',
+    TOK_LPAREN = '(',
+    TOK_RPAREN = ')',
+    TOK_LBRACKET = '[',
+    TOK_RBRACKET = ']',
+    TOK_SEMI = ';',
+    TOK_NOT = '!',
     TOK_LEQUAL = 256,
+    TOK_AND,
+    TOK_OR,
     TOK_GEQUAL,
     TOK_EQUAL,
     TOK_NEQUAL,
@@ -29,10 +40,12 @@ typedef enum {
     TOK_WHILE,
     TOK_DO,
     TOK_BREAK,
+    TOK_TEMP,
 } tokenType;
 
-@interface Token : NSObject
+@interface Token : NSObject <NSCopying>
 
+@property(nonatomic, assign) NSUInteger line;
 @property(nonatomic, assign) tokenType type;
 
 -(id)initWithType:(tokenType)newType;

@@ -12,10 +12,15 @@
 #import "WordToken.h"
 #import "FloatToken.h"
 #import "TypeToken.h"
+#import "TokenStream.h"
 
 @implementation Lexer
 
 @synthesize buffer;
+
+-(void)error:(NSString *)error {
+    [NSException raise:@"Syntax Error" format:@"%@ near line %lu", error, line];
+}
 
 -(id)initWithString:(NSString *)string {
     if (self = [super init]) {
@@ -24,8 +29,8 @@
         characterIndex = 0;
         wordDict = [[NSMutableDictionary alloc] init];
         stream = [[TokenStream alloc] init];
-        [self reserveWord:[WordToken tokenWithType:TOK_TRUE lexeme:@"true"]];
-        [self reserveWord:[WordToken tokenWithType:TOK_FALSE lexeme:@"false"]];
+        [self reserveWord:WordToken.trueToken];
+        [self reserveWord:WordToken.falseToken];
         [self reserveWord:[WordToken tokenWithType:TOK_IF lexeme:@"if"]];
         [self reserveWord:[WordToken tokenWithType:TOK_ELSE lexeme:@"else"]];
         [self reserveWord:[WordToken tokenWithType:TOK_WHILE lexeme:@"while"]];
@@ -34,6 +39,7 @@
         [self reserveWord:TypeToken.charType];
         [self reserveWord:TypeToken.intType];
         [self reserveWord:TypeToken.floatType];
+        [self reserveWord:TypeToken.boolType];
     }
     return self;
 }
@@ -158,8 +164,19 @@
             return [Token tokenWithType:TOK_NEQUAL];
         }
         else {
-            NSException *exception = [[NSException alloc] initWithName:@"Syntax error" reason:@"Error in syntax" userInfo:nil];
-            [exception raise];
+            [self error:@"unary '!' is not yet supported"];
+        }
+    }
+    else if (currentChar == '&') {
+        if ((currentChar = [self nextCharacter]) == '&') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_AND];
+        }
+    }
+    else if (currentChar == '&') {
+        if ((currentChar = [self nextCharacter]) == '&') {
+            characterIndex++;
+            return [Token tokenWithType:TOK_AND];
         }
     }
     else {

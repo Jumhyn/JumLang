@@ -23,4 +23,12 @@
     return self;
 }
 
+-(Expression *)generateRHS {
+    return [[Arithmetic alloc] initWithOperator:self.operator expression1:[expr1 reduce] expression2:[expr2 reduce]];
+}
+
+-(NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@ %@", expr1.description, self.operator.description, expr2.description];
+}
+
 @end

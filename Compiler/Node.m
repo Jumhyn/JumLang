@@ -8,11 +8,26 @@
 
 #import "Node.h"
 
+static NSUInteger labels = 0;
+
 @implementation Node
 
+@synthesize lineNumber;
+
 -(void)error:(NSString *)error {
-    NSLog(@"ERROR:%@", error);
-    exit(0);
+    [NSException raise:@"Syntax Error" format:@"ERROR:%@ near line %lu", error, self.lineNumber];
+}
+
+-(NSUInteger)newLabel {
+    return ++labels;
+}
+
+-(void)emitLabel:(NSUInteger)label {
+    printf("L%lu:\n", (unsigned long)label);
+}
+
+-(void)emit:(NSString *)string {
+    printf("%s\n", string.UTF8String);
 }
 
 @end
