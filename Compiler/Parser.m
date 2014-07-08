@@ -34,6 +34,7 @@
 #import "Prototype.h"
 #import "CallExpression.h"
 #import "ReturnStatement.h"
+#import "FunctionIdentifier.h"
 
 @implementation Parser
 
@@ -78,21 +79,29 @@
     Statement *stmt = [self sequence];
     [self match:'}'];
     topEnvironment = savedEnvironment;
-    return [[Function alloc] initWithSignature:proto body:stmt];
+    Function *ret = [[Function alloc] initWithSignature:proto body:stmt stackSpace:-usedSpace];
+    usedSpace = 0;
+    return ret;
 }
 
 -(Prototype *)prototype {
     TypeToken *typeTok = [self type];
+    BOOL isEntry = NO;
+    if (lookahead.type == TOK_ENTRY) {
+        isEntry = YES;
+        [self match:TOK_ENTRY];
+    }
     WordToken *funcIdTok = (WordToken *)lookahead;
     [self match:TOK_ID];
     [self match:'('];
     NSMutableArray *args = [[NSMutableArray alloc] init];
+    usedSpace = __WORDSIZE / 8;
     while (lookahead.type == TOK_TYPE) {
         TypeToken *t = [self type];
         Token *idTok = lookahead;
         [self match:TOK_ID];
-        usedSpace -= t.width;
         Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+        usedSpace += t.width;
         [args addObject:identifier];
         [topEnvironment setIdentifier:identifier forToken:idTok];
         if (lookahead.type == ')') {
@@ -102,8 +111,8 @@
     }
     usedSpace = 0;
     [self match:')'];
-    Identifier *funcIdentifier = [[Identifier alloc] initWithOperator:funcIdTok type:typeTok offset:0];
-    return [[Prototype alloc] initWithIdentifier:funcIdentifier arguments:[NSArray arrayWithArray:args]];
+    FunctionIdentifier *funcIdentifier = [[FunctionIdentifier alloc] initWithOperator:funcIdTok type:typeTok offset:0];
+    return [[Prototype alloc] initWithIdentifier:funcIdentifier arguments:[NSArray arrayWithArray:args] isEntry:isEntry];
 }
 
 -(Statement *)block {
@@ -123,9 +132,9 @@
         Token *idTok = lookahead;
         [self match:TOK_ID];
         [self match:';'];
+        usedSpace -= t.width;
         Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
         [topEnvironment setIdentifier:identifier forToken:idTok];
-        usedSpace += t.width;
     }
 }
 
@@ -167,6 +176,13 @@
             return [[DoStatement alloc]initWithStatement:stmt1 expression:expr];
         case TOK_RETURN:
             [self match:TOK_RETURN];
+            if (currentFunc.identifier.type == TypeToken.voidType) {
+                if (lookahead.type != ';') {
+                    [self error:@"returning value from function with void return type"];
+                }
+                [self match:';'];
+                return [[ReturnStatement alloc] initWithExpression:[[Expression alloc] initWithOperator:nil type:TypeToken.voidType]];
+            }
             expr = [self or];
             [self match:';'];
             return [[ReturnStatement alloc] initWithExpression:expr];
@@ -253,6 +269,16 @@
     if (lookahead.type == '-') {
         Token *opTok = lookahead;
         [self match:'-'];
+        if (lookahead.type == TOK_NUM) {
+            NumToken *tok = [[NumToken alloc] initWithValue:-[(NumToken *)lookahead value]];
+            [self match:TOK_NUM];
+            return [[Constant alloc] initWithOperator:tok type:TypeToken.intType];
+        }
+        else if (lookahead.type == TOK_FLOAT) {
+            FloatToken *tok = [[FloatToken alloc] initWithValue:-[(FloatToken *)lookahead value]];
+            [self match:TOK_FLOAT];
+            return [[Constant alloc] initWithOperator:tok type:TypeToken.floatType];
+        }
         return [[Unary alloc] initWithOperator:opTok expression:[self unary]];
     }
     else if (lookahead.type == '!') {
@@ -357,6 +383,8 @@
                 return @"'do'";
             case TOK_BREAK:
                 return @"'break'";
+            case TOK_ENTRY:
+                return @"'entry'";
 
             case TOK_NUM:
                 return @"integer constant";

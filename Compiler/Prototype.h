@@ -14,7 +14,8 @@
 
 @property(nonatomic, retain) Identifier *identifier;
 @property(nonatomic, retain) NSArray *arguments;
+@property(nonatomic, assign) BOOL isEntry;
 
--(id)initWithIdentifier:(Identifier *)newIdentifier arguments:(NSArray *)newArguments;
+-(id)initWithIdentifier:(Identifier *)newIdentifier arguments:(NSArray *)newArguments isEntry:(BOOL)newIsEntry;
 
 @end

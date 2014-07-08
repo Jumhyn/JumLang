@@ -7,6 +7,7 @@
 //
 
 #import "Expression.h"
+#import "Temporary.h"
 
 @implementation Expression
 
@@ -29,11 +30,32 @@
     return self;
 }
 
+-(Expression *)convert:(TypeToken *)to {
+    if (self.type == to) {
+        return [self reduce];
+    }
+    else if (self.type == TypeToken.intType && to == TypeToken.floatType) {
+        Temporary *temp = [[Temporary alloc] initWithType:to];
+        [self emit:[NSString stringWithFormat:@"%@ = sitofp %@ %@ to %@", temp, self.type, [self reduce], to]];
+        return temp;
+    }
+    else if (self.type == TypeToken.floatType && to == TypeToken.intType) {
+        Temporary *temp = [[Temporary alloc] initWithType:to];
+        [self emit:[NSString stringWithFormat:@"%@ = fptosi %@ %@ to %@", temp, self.type, [self reduce], to]];
+        return temp;
+    }
+    else {
+        [self error:[NSString stringWithFormat:@"type error when trying to convert %@ to %@", self.type, to]];
+        return nil;
+    }
+}
+
 -(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
     [self emitJumpsForTest:[self description] TrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
 }
 
 -(void)emitJumpsForTest:(NSString *)test TrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
+#if LLVM == 0
     if (trueLabelNumber != 0 && falseLabelNumber != 0) {
         [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
         [self emit:[NSString stringWithFormat:@"goto L%lu", falseLabelNumber]];
@@ -44,6 +66,17 @@
     else if (falseLabelNumber == 0) {
         [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
     }
+#elif LLVM == 1
+    if (trueLabelNumber != 0 && falseLabelNumber != 0) {
+        [self emit:[NSString stringWithFormat:@"br i1 %@, label %%L%lu, label %%L%lu", test, trueLabelNumber, falseLabelNumber]];
+    }
+    else if (trueLabelNumber == 0) {
+        [self emit:[NSString stringWithFormat:@"iffalse %@ goto L%lu", test, falseLabelNumber]];
+    }
+    else if (falseLabelNumber == 0) {
+        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
+    }
+#endif
 }
 
 -(NSString *)description {

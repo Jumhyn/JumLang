@@ -39,6 +39,7 @@
 }
 
 -(NSString *)description {
+#if LLVM == 0
     if (type < 128) {
         return [NSString stringWithFormat:@"%c", (char)self.type];
     }
@@ -84,6 +85,63 @@
                 return @"unrecognized token";
         }
     }
+#elif LLVM == 1
+    switch (self.type) {
+        case '+':
+            return @"add";
+        case '-':
+            return @"sub";
+        case '*':
+            return @"mul";
+        case '/':
+            return @"div";
+        case '<':
+            return @"slt";
+        case '>':
+            return @"sgt";
+        case '=':
+            return @"'='";
+
+        case TOK_LEQUAL:
+            return @"sle";
+        case TOK_AND:
+            return @"'&&'";
+        case TOK_OR:
+            return @"'||'";
+        case TOK_GEQUAL:
+            return @"sge";
+        case TOK_EQUAL:
+            return @"eq";
+        case TOK_NEQUAL:
+            return @"ne";
+        case TOK_IF:
+            return @"'if'";
+        case TOK_ELSE:
+            return @"'else'";
+        case TOK_WHILE:
+            return @"'while'";
+        case TOK_DO:
+            return @"'do'";
+        case TOK_BREAK:
+            return @"'break'";
+
+        case TOK_NUM:
+            return @"integer constant";
+        case TOK_FLOAT:
+            return @"float constant";
+        case TOK_ID:
+            return @"identifier";
+        case TOK_TYPE:
+            return @"type specifier";
+
+        case TOK_TRUE:
+        case TOK_FALSE:
+            return @"boolean constant";
+
+        default:
+            return @"unrecognized token";
+    }
+#endif
 }
 
 -(id)copyWithZone:(NSZone *)zone {

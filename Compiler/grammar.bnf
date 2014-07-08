@@ -1,0 +1,96 @@
+<program>         ::= <functions>
+
+<functions>       ::= <function> <functions>
+                    | eps
+                  
+<function>        ::= <type> <identifier> "(" <arg-list> ")" <block>
+
+<type>            ::= <type-not-void>
+                    | "void"
+                  
+<type-not-void>   ::= "int"
+                    | "float"
+                    | "bool"
+                  
+<identifier>      ::= [a-zA-z]+
+
+<arg-list>        ::= <arg-list-comm> <type> <identifier>
+                    | eps
+                  
+<arg-list-comm>   ::= <type> <identifier> "," <arg-list-comm>
+                    | eps
+                  
+<block>           ::= "{" <sequence> "}"
+
+<sequence>        ::= <statement> <sequence>
+                    | eps
+                  
+<statement>       ::= <if-statement>
+                    | <while-statement>
+                    | <do-statement>
+                    | <ret-statement>
+                    | <block>
+                    | <assignment>
+                  
+<if-statement>    ::= "if" <expression> <statement>
+
+<while-statement> ::= "while" <expression> <statement>
+
+<do-statement>    ::= "do" <statement> "while" <expression> ";"
+
+<ret-statement>   ::= "return" <opt-expression> ";"
+
+<opt-expression>  ::= <expression>
+                    | eps
+                    
+<assignment>      ::= <identifier> "=" <or> ";"
+
+<or>              ::= <and> "||" <or>
+                    | <and>
+                    
+<and>             ::= <equality> "&&" <and>
+                    | <equality>
+                    
+<equality>        ::= <inequality> <equality-op> <equality>
+                    | <inequality>
+                    
+<equality-op>     ::= "=="
+                    | "!="
+                    
+<inequality>      ::= <addition> <inequality-op> <inequality>
+                    | <addition>
+                    
+<inequality-op>   ::= ">"
+                    | "<"
+                    | ">="
+                    | "<="
+                    
+<addition>        ::= <multiplication> <addition-op> <addition>
+                    | <addition>
+                    
+<addition-op>     ::= "+"
+                    | "-"
+                    
+<multiplication>  ::= <unary> <mult-op> <multiplication>
+                    | <unary>
+                    
+<mult-op>         ::= "*"
+                    | "/"
+                    
+<unary>           ::= "-" <unary>
+                    | "!" <unary>
+                    | <expression>
+                    
+<expression>      ::= "(" <or> ")"
+                    | <constant>
+                    | <identifier>
+                    
+<constant>        ::= "true"
+                    | "false"
+                    | <float-constant>
+                    | <int-constant>
+                    
+<float-constant>  ::= <int-constant>(.)[0-9]+
+
+<int-constant>    ::= [0-9]+
+

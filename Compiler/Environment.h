@@ -21,4 +21,6 @@
 -(Identifier *)identifierForToken:(Token *)token;
 -(void)setIdentifier:(Identifier *)identifier forToken:(Token *)token;
 
++(Environment *)globalScope;
+
 @end

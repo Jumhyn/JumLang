@@ -1,0 +1,13 @@
+int entry test(int a, float b) {
+    int hello;
+    hello = 5;
+    hello = test(b-2, a-1);
+    if (hello + 3 > hello*-4) {
+        int testvar;
+        float testalso;
+        testvar = hello + 3;
+        testalso = 3.0 * testvar + 3 / 5.0;
+        hello = 6;
+        return hello;
+    }
+}

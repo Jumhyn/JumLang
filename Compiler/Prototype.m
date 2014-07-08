@@ -13,10 +13,11 @@
 @synthesize identifier;
 @synthesize arguments;
 
--(id)initWithIdentifier:(Identifier *)newIdentifier arguments:(NSArray *)newArguments {
+-(id)initWithIdentifier:(Identifier *)newIdentifier arguments:(NSArray *)newArguments isEntry:(BOOL)newIsEntry {
     if (self = [super init]) {
         self.identifier = newIdentifier;
         self.arguments = newArguments;
+        self.isEntry = newIsEntry;
     }
     return self;
 }

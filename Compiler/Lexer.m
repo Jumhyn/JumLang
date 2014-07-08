@@ -22,9 +22,8 @@
     [NSException raise:@"Syntax Error" format:@"%@ near line %lu", error, line];
 }
 
--(id)initWithString:(NSString *)string {
+-(id)init {
     if (self = [super init]) {
-        self.buffer = string;
         line = 0;
         characterIndex = 0;
         wordDict = [[NSMutableDictionary alloc] init];
@@ -37,12 +36,24 @@
         [self reserveWord:[WordToken tokenWithType:TOK_DO lexeme:@"do"]];
         [self reserveWord:[WordToken tokenWithType:TOK_BREAK lexeme:@"break"]];
         [self reserveWord:[WordToken tokenWithType:TOK_RETURN lexeme:@"return"]];
+        [self reserveWord:[WordToken tokenWithType:TOK_ENTRY lexeme:@"entry"]];
         [self reserveWord:TypeToken.charType];
         [self reserveWord:TypeToken.intType];
         [self reserveWord:TypeToken.floatType];
         [self reserveWord:TypeToken.boolType];
     }
     return self;
+}
+
+-(id)initWithString:(NSString *)string {
+    if (self = [self init]) {
+        self.buffer = string;
+    }
+    return self;
+}
+
+-(id)initWithContentsOfFile:(NSString *)path {
+    return [self initWithString:[[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil]];
 }
 
 -(void)reserveWord:(WordToken *)word {
@@ -52,6 +63,7 @@
 -(TokenStream *)lex {
     Token *tok;
     while ((tok = [self nextToken])) {
+        tok.line = line;
         [stream addToken:tok];
     }
     return stream;
@@ -122,7 +134,7 @@
             currentChar = [self nextCharacter];
         }
         while (isalpha(currentChar));
-        WordToken *tok = [wordDict objectForKey:wordBuffer];
+        WordToken *tok = [[wordDict objectForKey:wordBuffer] copy];
         if (tok) {
             return tok;
         }

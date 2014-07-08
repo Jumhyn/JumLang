@@ -21,6 +21,7 @@
 @property(nonatomic, retain) NSString *buffer;
 
 -(id)initWithString:(NSString *)string;
+-(id)initWithContentsOfFile:(NSString *)path;
 
 -(TokenStream *)lex;
 -(Token *)nextToken;

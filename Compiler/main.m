@@ -15,10 +15,10 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        Lexer *lex = [[Lexer alloc] initWithString:@"int test(int a, float b) {\
+        //Lexer *lex = [[Lexer alloc] initWithString:@"int test(int a, float b) {\
                                                           int hello;\
                                                           hello = 5;\
-                                                          hello = test(2, 1);\
+                                                          hello = test(b-2, a-1);\
                                                           if (hello + 3 > hello*-4) {\
                                                               int test;\
                                                               float testalso;\
@@ -27,6 +27,7 @@ int main(int argc, const char * argv[]) {
                                                               hello = 6;\
                                                           }\
                                                      }"];
+        Lexer *lex = [[Lexer alloc] initWithContentsOfFile:@"/Users/freddy/Development/Xcode Projects/Compiler/Compiler/JumTest.jum"];
         TokenStream *stream = [lex lex];
         NSArray *s = [[[Parser alloc] initWithTokenStream:stream] program];
         [s[0] generateCode];

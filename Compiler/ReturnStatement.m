@@ -22,7 +22,21 @@
 
 -(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
     Expression *temp = [self.expr reduce];
-    [self emit:[NSString stringWithFormat:@"return %@", temp]];
+#if LLVM == 0
+    if (self.expr.type == TypeToken.voidType) {
+        [self emit:@"return"];
+    }
+    else {
+        [self emit:[NSString stringWithFormat:@"return %@", temp]];
+    }
+#elif LLVM == 1
+    if (self.expr.type == TypeToken.voidType) {
+        [self emit:@"ret void"];
+    }
+    else {
+        [self emit:[NSString stringWithFormat:@"ret %@ %@", expr.type, temp]];
+    }
+#endif
 }
 
 @end

@@ -25,20 +25,43 @@
 }
 
 -(Expression *)generateRHS {
-    return self.reduce;
-}
-
--(Expression *)reduce {
-    for (Expression *arg in self.arguments) {
+#if LLVM == 0
+    for (Expression *arg in [self.arguments reverseObjectEnumerator]) {
         [self emit:[NSString stringWithFormat:@"push %@", arg.reduce]];
     }
     Temporary *temp = [[Temporary alloc] initWithType:self.type];
     [self emit:[NSString stringWithFormat:@"%@ = %@", temp, self]];
     return temp;
+#elif LLVM == 1
+    NSMutableArray *reducedArray = [[NSMutableArray alloc] init];
+    NSUInteger index = 0;
+    for (Expression *arg in self.arguments) {
+        [reducedArray addObject:[arg reduce]];
+    }
+    return [[CallExpression alloc] initWithIdentifier:self.identifier arguments:[NSArray arrayWithArray:reducedArray]];
+#endif
+}
+
+-(Expression *)reduce {
+    Temporary *temp = [[Temporary alloc] initWithType:self.type];
+    [self emit:[NSString stringWithFormat:@"%@ = %@", temp, [self generateRHS]]];
+    return temp;
 }
 
 -(NSString *)description {
+#if LLVM == 0
     return [NSString stringWithFormat:@"call %@", self.identifier];
+#elif LLVM == 1
+    NSMutableString *call = [[NSString stringWithFormat:@"call %@ %@(", self.identifier.type, self.identifier] mutableCopy];
+    for (Expression *arg in self.arguments) {
+        [call appendFormat:@"%@ %@", arg.type, arg];
+        if ([self.arguments indexOfObject:arg] < self.arguments.count-1) {
+            [call appendString:@", "];
+        }
+    }
+    [call appendString:@")"];
+    return call;
+#endif
 }
 
 @end

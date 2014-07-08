@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#define LLVM 1
+
 typedef enum {
     TOK_ANY = -1,
     TOK_PLUS = '+',
     TOK_MINUS = '-',
+    TOK_TIMES = '*',
+    TOK_DIV = '/',
     TOK_LESS = '<',
     TOK_GREATER = '>',
     TOK_ASSIGN = '=',
@@ -41,6 +45,7 @@ typedef enum {
     TOK_DO,
     TOK_BREAK,
     TOK_RETURN,
+    TOK_ENTRY,
     TOK_TEMP,
 } tokenType;
 

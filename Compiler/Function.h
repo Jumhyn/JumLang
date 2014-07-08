@@ -15,8 +15,9 @@
 
 @property(nonatomic, retain) Prototype *signature;
 @property(nonatomic, retain) Statement *body;
+@property(nonatomic, assign) size_t stackSpace;
 
--(id)initWithSignature:(Prototype *)newSignature body:(Statement *)newBody;
+-(id)initWithSignature:(Prototype *)newSignature body:(Statement *)newBody stackSpace:(size_t)newStackSpace;
 -(void)generateCode;
 
 @end

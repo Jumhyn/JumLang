@@ -41,4 +41,12 @@
     [self.symbolTable setObject:identifier forKey:token];
 }
 
++(Environment *)globalScope {
+    static Environment *globalScope = nil;
+    if (globalScope == nil) {
+        globalScope = [[Environment alloc] initWithPreviousEnvironment:nil];
+    }
+    return globalScope;
+}
+
 @end

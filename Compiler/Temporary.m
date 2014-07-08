@@ -22,7 +22,7 @@ static NSUInteger count = 0;
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"t%lu", (unsigned long) number];
+    return [NSString stringWithFormat:@"%%t%lu", (unsigned long) number];
 }
 
 @end

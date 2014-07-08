@@ -24,11 +24,20 @@
 }
 
 -(Expression *)generateRHS {
-    return [[Arithmetic alloc] initWithOperator:self.operator expression1:[expr1 reduce] expression2:[expr2 reduce]];
+    TypeToken *max = Type_max(expr1.type, expr2.type);
+    return [[Arithmetic alloc] initWithOperator:self.operator expression1:[expr1 convert:max] expression2:[expr2 convert:max]];
 }
 
 -(NSString *)description {
+#if LLVM == 0
     return [NSString stringWithFormat:@"%@ %@ %@", expr1, self.operator, expr2];
+#elif LLVM == 1
+    NSString *prefix = @"";
+    if (self.type == TypeToken.floatType) {
+        prefix = @"f";
+    }
+    return [NSString stringWithFormat:@"%@%@ %@ %@, %@", prefix, self.operator, self.type, expr1, expr2];
+#endif
 }
 
 @end

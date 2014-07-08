@@ -19,6 +19,7 @@
 
 -(Expression *)generateRHS;
 -(Expression *)reduce;
+-(Expression *)convert:(TypeToken *)to;
 -(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
 -(void)emitJumpsForTest:(NSString *)test TrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
 

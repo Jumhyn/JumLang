@@ -22,6 +22,22 @@
     return self = [super initWithOperator:[[FloatToken alloc] initWithValue:value] type:TypeToken.floatType];
 }
 
+-(Expression *)convert:(TypeToken *)to {
+    if (self.type == to) {
+        return [self reduce];
+    }
+    else if (self.type == TypeToken.intType && to == TypeToken.floatType) {
+        return [[Constant alloc] initWithOperator:[[FloatToken alloc] initWithValue:(double)[(NumToken *)self.operator value]] type:TypeToken.floatType];
+    }
+    else if (self.type == TypeToken.floatType && to == TypeToken.intType) {
+        return [[Constant alloc] initWithOperator:[[NumToken alloc] initWithValue:(NSInteger)[(FloatToken *)self.operator value]] type:TypeToken.intType];
+    }
+    else {
+        [self error:[NSString stringWithFormat:@"type error when trying to convert %@ to %@", self.type, to]];
+        return nil;
+    }
+}
+
 -(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
     if (self == Constant.trueConstant && trueLabelNumber != 0) {
         printf("goto L%lu", trueLabelNumber);

@@ -7,14 +7,36 @@
 //
 
 #import "Identifier.h"
+#import "Temporary.h"
 
 @implementation Identifier
 
+@synthesize offset;
+
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset {
     if (self = [super initWithOperator:newOperator type:newType]) {
-        offset = newOffset;
+        self.offset = newOffset;
+        self.allocated = NO;
     }
     return self;
+}
+
+-(Expression *)reduce {
+    Temporary *temp = [[Temporary alloc] initWithType:self.type];
+    [self emit:[NSString stringWithFormat:@"%@ = load %@* %@", temp, self.type, self]];
+    return temp;
+}
+
+-(Expression *)generateRHS {
+    return self.reduce;
+}
+
+-(NSString *)description {
+#if LLVM == 0
+    return [NSString stringWithFormat:@"%ld(base)", self.offset];
+#elif LLVM == 1
+    return [NSString stringWithFormat:@"%%%@", [super description]];
+#endif
 }
 
 @end

@@ -31,6 +31,32 @@
     return width;
 }
 
+-(id)copy {
+    return self;
+}
+
+-(NSString *)description {
+#if LLVM == 0
+    return [super description];
+#elif LLVM == 1
+    if (self == TypeToken.charType) {
+        return @"i8";
+    }
+    else if (self == TypeToken.intType) {
+        return @"i32";
+    }
+    else if (self == TypeToken.floatType) {
+        return @"double";
+    }
+    else if (self == TypeToken.boolType) {
+        return @"i1";
+    }
+    else {
+        return [super description];
+    }
+#endif
+}
+
 +(TypeToken *)charType {
     static TypeToken *charType = nil;
     if (charType == nil) {
