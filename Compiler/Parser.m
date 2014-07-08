@@ -72,7 +72,6 @@
     currentFunc = proto;
     [Environment.globalScope setPrototype:proto forToken:proto.identifier.operator];
     [self match:'{'];
-    [self declarations];
     Statement *stmt = [self sequence];
     [self match:'}'];
     topEnvironment = savedEnvironment;
@@ -117,7 +116,6 @@
     [self match:'{'];
     Environment *savedEnvironment = topEnvironment;
     topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
-    [self declarations];
     Statement *stmt = [self sequence];
     [self match:'}'];
     topEnvironment = savedEnvironment;
@@ -184,6 +182,24 @@
             expr = [self or];
             [self match:';'];
             return [[ReturnStatement alloc] initWithExpression:expr];
+        case TOK_TYPE: {
+            TypeToken *t = [self type];
+            Token *idTok = lookahead;
+            [self match:TOK_ID];
+            usedSpace -= t.width;
+            Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+            [topEnvironment setIdentifier:identifier forToken:idTok];
+            if (lookahead.type == ';') {
+                [self match:';'];
+                return [self statement];
+            }
+            else {
+                [self match:'='];
+                expr = [self or];
+                [self match:';'];
+                return [[AssignStatement alloc] initWithIdentifier:identifier expression:expr];
+            }
+        }
         case '{':
             return [self block];
         default:

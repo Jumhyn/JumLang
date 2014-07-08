@@ -31,6 +31,7 @@ int main(int argc, const char * argv[]) {
         TokenStream *stream = [lex lex];
         NSArray *s = [[[Parser alloc] initWithTokenStream:stream] program];
         [s[0] generateCode];
+        [s[1] generateCode];
         Token *t;
         while ((t = [stream nextToken])) {
             NSLog(@"%@", t);

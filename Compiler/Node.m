@@ -10,6 +10,17 @@
 #import "Label.h"
 
 static NSUInteger labels = 0;
+#if LLVM == 1
+static BOOL blockEnd = YES;
+
+@implementation NSString (LLVMExtensions)
+
+-(BOOL)endsBasicBlock {
+    return [self hasPrefix:@"ret"] || [self hasPrefix:@"br"] || [self hasPrefix:@"switch"] || [self hasPrefix:@"indirectbr"] || [self hasPrefix:@"invoke"] || [self hasPrefix:@"resume"] || [self hasPrefix:@"unreachable"];
+}
+
+@end
+#endif
 
 @implementation Node
 
@@ -24,12 +35,27 @@ static NSUInteger labels = 0;
 }
 
 -(void)emitLabel:(Label *)label {
+#if LLVM == 0
+    printf("L%lu:\n", (unsigned long)label.number);
+#elif LLVM == 1
     if (label.referenced) {
+        if (!blockEnd) {
+            printf("br label %%L%lu\n", (unsigned long)label.number);
+        }
         printf("L%lu:\n", (unsigned long)label.number);
     }
+#endif
 }
 
 -(void)emit:(NSString *)string {
+#if LLVM == 1
+    if ([string endsBasicBlock]) {
+        blockEnd = YES;
+    }
+    else if (!([string hasPrefix:@"define"] || [string hasPrefix:@"}"])) {
+        blockEnd = NO;
+    }
+#endif
     printf("%s\n", string.UTF8String);
 }
 

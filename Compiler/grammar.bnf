@@ -3,12 +3,12 @@
 <functions>       ::= <function> <functions>
                     | eps
                   
-<function>        ::= <type> <identifier> "(" <arg-list> ")" <block>
+<function>        ::= <type-or-void> <identifier> "(" <arg-list> ")" <block>
 
-<type>            ::= <type-not-void>
+<type-or-void>    ::= <type>
                     | "void"
                   
-<type-not-void>   ::= "int"
+<type>            ::= "int"
                     | "float"
                     | "bool"
                   
@@ -31,6 +31,7 @@
                     | <ret-statement>
                     | <block>
                     | <assignment>
+                    | <declaration>
                   
 <if-statement>    ::= "if" <expression> <statement>
 
@@ -44,6 +45,9 @@
                     | eps
                     
 <assignment>      ::= <identifier> "=" <or> ";"
+                    
+<declaration>     ::= <type> <identifier> ";"
+                    | <type> <assignment> ";"
 
 <or>              ::= <and> "||" <or>
                     | <and>
