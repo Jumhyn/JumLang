@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Token.h"
+
+@class Label;
+
 @interface Node : NSObject
 
 @property(nonatomic, assign) NSUInteger lineNumber;
 
 -(void)error:(NSString *)error;
--(NSUInteger)newLabel;
--(void)emitLabel:(NSUInteger)label;
+-(Label *)newLabel;
+-(void)emitLabel:(Label *)label;
 -(void)emit:(NSString *)string;
 
 @end

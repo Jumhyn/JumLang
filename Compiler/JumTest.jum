@@ -1,4 +1,4 @@
-int entry test(int a, float b) {
+/*int entry test(int a, float b) {
     int hello;
     hello = 5;
     hello = test(b-2, a-1);
@@ -10,4 +10,23 @@ int entry test(int a, float b) {
         hello = 6;
         return hello;
     }
+    return hello;
+}*/
+
+
+int main() {
+    int hello;
+    int x;
+    int y;
+    hello = 3;
+    x = hello + 4;
+    y = -x;
+    if (hello == 4) {
+        return 5;
+    }
+    while (x > 0) {
+        x = x - 1;
+        y = y + 2;
+    }
+    return y;
 }

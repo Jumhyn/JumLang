@@ -10,6 +10,8 @@
 #import "Token.h"
 #import "TypeToken.h"
 
+@class Label;
+
 @interface Expression : Node
 
 @property(nonatomic, retain) Token *operator;
@@ -20,7 +22,7 @@
 -(Expression *)generateRHS;
 -(Expression *)reduce;
 -(Expression *)convert:(TypeToken *)to;
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
--(void)emitJumpsForTest:(NSString *)test TrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber;
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel;
+-(void)emitJumpsForTest:(NSString *)test trueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel;
 
 @end

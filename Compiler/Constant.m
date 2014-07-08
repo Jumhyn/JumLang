@@ -11,6 +11,7 @@
 #import "FloatToken.h"
 #import "TypeToken.h"
 #import "WordToken.h"
+#import "Label.h"
 
 @implementation Constant
 
@@ -38,13 +39,22 @@
     }
 }
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    if (self == Constant.trueConstant && trueLabelNumber != 0) {
-        printf("goto L%lu", trueLabelNumber);
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+#if LLVM == 0
+    if (self == Constant.trueConstant && trueLabel) {
+        printf("goto L%lu", trueLabel.number);
     }
-    else if (self == Constant.falseConstant && falseLabelNumber != 0) {
-        printf("goto L%lu", falseLabelNumber);
+    else if (self == Constant.falseConstant && falseLabel) {
+        printf("goto L%lu", falseLabel.number);
     }
+#elif LLVM == 1
+    if (self == Constant.trueConstant && trueLabel) {
+        printf("br %%L%lu", trueLabel.number);
+    }
+    else if (self == Constant.falseConstant && falseLabel) {
+        printf("br %%L%lu", falseLabel.number);
+    }
+#endif
 }
 
 +(Constant *)trueConstant {

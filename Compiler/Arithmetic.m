@@ -33,6 +33,9 @@
     return [NSString stringWithFormat:@"%@ %@ %@", expr1, self.operator, expr2];
 #elif LLVM == 1
     NSString *prefix = @"";
+    if (self.operator.type == TOK_DIV) {
+        prefix = @"s";
+    }
     if (self.type == TypeToken.floatType) {
         prefix = @"f";
     }

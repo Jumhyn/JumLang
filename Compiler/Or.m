@@ -10,11 +10,11 @@
 
 @implementation Or
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    NSUInteger label = (trueLabelNumber != 0) ? trueLabelNumber : [self newLabel];
-    [self.expr1 jumpingForTrueLabelNumber:label falseLabelNumber:0];
-    [self.expr2 jumpingForTrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
-    if (trueLabelNumber == 0) {
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+    Label *label = (trueLabel) ? trueLabel : [self newLabel];
+    [self.expr1 jumpingForTrueLabel:label falseLabel:nil];
+    [self.expr2 jumpingForTrueLabel:trueLabel falseLabel:falseLabel];
+    if (!trueLabel) {
         [self emitLabel:label];
     }
 }

@@ -8,6 +8,7 @@
 
 #import "Expression.h"
 #import "Temporary.h"
+#import "Label.h"
 
 @implementation Expression
 
@@ -50,31 +51,34 @@
     }
 }
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    [self emitJumpsForTest:[self description] TrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+    [self emitJumpsForTest:[self description] trueLabel:trueLabel falseLabel:falseLabel];
 }
 
--(void)emitJumpsForTest:(NSString *)test TrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
+-(void)emitJumpsForTest:(NSString *)test trueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
 #if LLVM == 0
-    if (trueLabelNumber != 0 && falseLabelNumber != 0) {
-        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
-        [self emit:[NSString stringWithFormat:@"goto L%lu", falseLabelNumber]];
+    if (trueLabel && falseLabel) {
+        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabel.number]];
+        [self emit:[NSString stringWithFormat:@"goto L%lu", falseLabel.number]];
     }
-    else if (trueLabelNumber == 0) {
-        [self emit:[NSString stringWithFormat:@"iffalse %@ goto L%lu", test, falseLabelNumber]];
+    else if (!trueLabel) {
+        [self emit:[NSString stringWithFormat:@"iffalse %@ goto L%lu", test, falseLabel.number]];
     }
-    else if (falseLabelNumber == 0) {
-        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
+    else if (!falseLabel) {
+        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabel.number]];
     }
 #elif LLVM == 1
-    if (trueLabelNumber != 0 && falseLabelNumber != 0) {
-        [self emit:[NSString stringWithFormat:@"br i1 %@, label %%L%lu, label %%L%lu", test, trueLabelNumber, falseLabelNumber]];
+    if (trueLabel && falseLabel) {
+        [self emit:[NSString stringWithFormat:@"br i1 %@, label %%L%lu, label %%L%lu", test, trueLabel.number, falseLabel.number]];
+        trueLabel.referenced = YES;
     }
-    else if (trueLabelNumber == 0) {
-        [self emit:[NSString stringWithFormat:@"iffalse %@ goto L%lu", test, falseLabelNumber]];
+    else if (!trueLabel) {
+        [self emit:[NSString stringWithFormat:@"iffalse %@ goto L%lu", test, falseLabel.number]];
+        falseLabel.referenced = YES;
     }
-    else if (falseLabelNumber == 0) {
-        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabelNumber]];
+    else if (!falseLabel) {
+        [self emit:[NSString stringWithFormat:@"if %@ goto L%lu", test, trueLabel.number]];
+        trueLabel.referenced = YES;
     }
 #endif
 }

@@ -58,13 +58,10 @@
 }
 
 -(NSArray *)program {
-    Environment *savedEnvironment = topEnvironment;
-    topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
     NSMutableArray *functionArray = [[NSMutableArray alloc] init];
     do {
         [functionArray addObject:[self function]];
     } while (lookahead.type == TOK_TYPE);
-    topEnvironment = savedEnvironment;
     return functionArray;
 }
 
@@ -73,7 +70,7 @@
     topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
     Prototype *proto = [self prototype];
     currentFunc = proto;
-    [savedEnvironment setIdentifier:proto.identifier forToken:proto.identifier.operator];
+    [Environment.globalScope setPrototype:proto forToken:proto.identifier.operator];
     [self match:'{'];
     [self declarations];
     Statement *stmt = [self sequence];
@@ -101,6 +98,7 @@
         Token *idTok = lookahead;
         [self match:TOK_ID];
         Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+        identifier.isArgument = YES;
         usedSpace += t.width;
         [args addObject:identifier];
         [topEnvironment setIdentifier:identifier forToken:idTok];

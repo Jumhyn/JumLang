@@ -96,20 +96,20 @@
         case '/':
             return @"div";
         case '<':
-            return @"slt";
+            return @"lt";
         case '>':
-            return @"sgt";
+            return @"gt";
         case '=':
             return @"'='";
 
         case TOK_LEQUAL:
-            return @"sle";
+            return @"le";
         case TOK_AND:
             return @"'&&'";
         case TOK_OR:
             return @"'||'";
         case TOK_GEQUAL:
-            return @"sge";
+            return @"ge";
         case TOK_EQUAL:
             return @"eq";
         case TOK_NEQUAL:

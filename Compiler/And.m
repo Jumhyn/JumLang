@@ -7,16 +7,17 @@
 //
 
 #import "And.h"
+#import "Label.h"
 
 @implementation And
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    NSUInteger label = (falseLabelNumber != 0) ? falseLabelNumber : [self newLabel];
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+    Label *label = (falseLabel != 0) ? falseLabel : [self newLabel];
 
-    [self.expr1 jumpingForTrueLabelNumber:0 falseLabelNumber:label];
-    [self.expr2 jumpingForTrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
+    [self.expr1 jumpingForTrueLabel:0 falseLabel:label];
+    [self.expr2 jumpingForTrueLabel:trueLabel falseLabel:falseLabel];
 
-    if (falseLabelNumber == 0) {
+    if (falseLabel == 0) {
         [self emitLabel:label];
     }
 }

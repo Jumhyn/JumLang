@@ -7,6 +7,7 @@
 //
 
 #import "Sequence.h"
+#import "Label.h"
 
 @implementation Sequence
 
@@ -21,16 +22,30 @@
     return self;
 }
 
--(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+-(void)generateCodeWithBeforeLabel:(Label *)beforeLabel afterLabel:(Label *)afterLabel {
     if (self.stmt2) {
-        NSUInteger labelNumber = [self newLabel];
-        [stmt1 generateCodeWithBeforeLabelNumber:beforeLabelNumber afterLabelNumber:labelNumber];
-        [self emitLabel:labelNumber];
-        [stmt2 generateCodeWithBeforeLabelNumber:labelNumber afterLabelNumber:afterLabelNumber];
+        Label *label = [self newLabel];
+        label.referenced = [stmt1 needsAfterLabel] || [stmt2 needsBeforeLabel];
+        [stmt1 generateCodeWithBeforeLabel:beforeLabel afterLabel:label];
+        [self emitLabel:label];
+        [stmt2 generateCodeWithBeforeLabel:label afterLabel:afterLabel];
     }
     else {
-        [stmt1 generateCodeWithBeforeLabelNumber:beforeLabelNumber afterLabelNumber:afterLabelNumber];
+        [stmt1 generateCodeWithBeforeLabel:beforeLabel afterLabel:afterLabel];
     }
+}
+
+-(BOOL)needsAfterLabel {
+    if (self.stmt2) {
+        return [self.stmt2 needsAfterLabel];
+    }
+    else {
+        return [self.stmt1 needsAfterLabel];
+    }
+}
+
+-(BOOL)needsBeforeLabel {
+    return [self.stmt1 needsBeforeLabel];
 }
 
 @end

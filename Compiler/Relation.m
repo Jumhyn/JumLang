@@ -11,20 +11,28 @@
 
 @implementation Relation
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    Expression *firstReduced = [self.expr1 reduce];
-    Expression *secondReduced = [self.expr2 reduce];
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+    TypeToken *max = Type_max(self.expr1.type, self.expr2.type);
+    Expression *firstReduced = [self.expr1 convert:max];
+    Expression *secondReduced = [self.expr2 convert:max];
 #if LLVM == 0
     NSString *test = [NSString stringWithFormat:@"%@ %@ %@", firstReduced, self.operator, secondReduced];
-    [self emitJumpsForTest:test TrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
+    [self emitJumpsForTest:test trueLabel:trueLabel falseLabel:falseLabel];
 #elif LLVM == 1
     Temporary *temp = [[Temporary alloc] initWithType:TypeToken.boolType];
-    char typechar = 'i';
-    if (firstReduced.type == TypeToken.floatType || secondReduced.type == TypeToken.floatType) {
-        typechar = 'f';
+    NSString *typePrefix = @"i";
+    if (firstReduced.type == TypeToken.floatType) {
+        typePrefix = @"f";
     }
-    [self emit:[NSString stringWithFormat:@"%@ = %ccmp %@ %@ %@, %@", temp, typechar, self.operator, Type_max(firstReduced.type, secondReduced.type), firstReduced, secondReduced]];
-    [self emitJumpsForTest:temp.description TrueLabelNumber:trueLabelNumber falseLabelNumber:falseLabelNumber];
+    NSString *testPrefix = @"s";
+    if (self.operator.type == TOK_EQUAL || self.operator.type == TOK_NEQUAL) {
+        testPrefix = @"";
+    }
+    if (firstReduced.type == TypeToken.floatType) {
+        testPrefix = @"o";
+    }
+    [self emit:[NSString stringWithFormat:@"%@ = %@cmp %@%@ %@ %@, %@", temp, typePrefix, testPrefix, self.operator, Type_max(firstReduced.type, secondReduced.type), firstReduced, secondReduced]];
+    [self emitJumpsForTest:temp.description trueLabel:trueLabel falseLabel:falseLabel];
 #endif
 }
 

@@ -14,8 +14,8 @@
     return self = [super initWithOperator:newOperator expression1:newExpr expression2:newExpr];
 }
 
--(void)jumpingForTrueLabelNumber:(NSUInteger)trueLabelNumber falseLabelNumber:(NSUInteger)falseLabelNumber {
-    [self.expr2 jumpingForTrueLabelNumber:falseLabelNumber falseLabelNumber:trueLabelNumber];
+-(void)jumpingForTrueLabel:(Label *)trueLabel falseLabel:(Label *)falseLabel {
+    [self.expr2 jumpingForTrueLabel:falseLabel falseLabel:trueLabel];
 }
 
 -(NSString *)description {

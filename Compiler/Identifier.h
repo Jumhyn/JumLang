@@ -11,7 +11,8 @@
 @interface Identifier : Expression
 
 @property(nonatomic, assign) NSInteger offset;
-@property(nonatomic, assign) BOOL allocated;
+@property(nonatomic, assign, getter = isAllocated) BOOL allocated;
+@property(nonatomic, assign, getter = isArgument) BOOL isArgument;
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset;
 

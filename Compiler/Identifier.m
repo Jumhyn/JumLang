@@ -12,16 +12,22 @@
 @implementation Identifier
 
 @synthesize offset;
+@synthesize allocated;
+@synthesize isArgument;
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset {
     if (self = [super initWithOperator:newOperator type:newType]) {
         self.offset = newOffset;
         self.allocated = NO;
+        self.isArgument = NO;
     }
     return self;
 }
 
 -(Expression *)reduce {
+    if (self.isArgument) {
+        return self;
+    }
     Temporary *temp = [[Temporary alloc] initWithType:self.type];
     [self emit:[NSString stringWithFormat:@"%@ = load %@* %@", temp, self.type, self]];
     return temp;

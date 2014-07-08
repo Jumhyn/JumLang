@@ -8,6 +8,7 @@
 
 #import "Logical.h"
 #import "Temporary.h"
+#import "Label.h"
 
 @implementation Logical
 
@@ -34,13 +35,13 @@
 }
 
 -(Expression *)generateRHS {
-    NSUInteger falseLabel = [self newLabel];
-    NSUInteger afterLabel = [self newLabel];
+    Label *falseLabel = [self newLabel];
+    Label *afterLabel = [self newLabel];
 
     Temporary *temp = [[Temporary alloc] initWithType:self.type];
-    [self jumpingForTrueLabelNumber:0 falseLabelNumber:falseLabel];
+    [self jumpingForTrueLabel:nil falseLabel:falseLabel];
     [self emit:[NSString stringWithFormat:@"%@ = true", temp]];
-    [self emit:[NSString stringWithFormat:@"goto L%lu", afterLabel]];
+    [self emit:[NSString stringWithFormat:@"goto L%lu", afterLabel.number]];
     [self emitLabel:falseLabel];
     [self emit:[NSString stringWithFormat:@"%@ = false", temp]];
     [self emitLabel:afterLabel];

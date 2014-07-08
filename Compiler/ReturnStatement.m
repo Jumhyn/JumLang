@@ -20,7 +20,7 @@
     return self;
 }
 
--(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+-(void)generateCodeWithBeforeLabel:(Label *)beforeLabel afterLabel:(Label *)afterLabel {
     Expression *temp = [self.expr reduce];
 #if LLVM == 0
     if (self.expr.type == TypeToken.voidType) {

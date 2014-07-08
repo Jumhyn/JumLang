@@ -10,10 +10,18 @@
 
 @implementation Statement
 
-@synthesize savedAfterLabelNumber;
+@synthesize savedAfterLabel;
 
--(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+-(void)generateCodeWithBeforeLabel:(Label *)beforeLabel afterLabel:(Label *)afterLabel {
 
+}
+
+-(BOOL)needsAfterLabel {
+    return NO;
+}
+
+-(BOOL)needsBeforeLabel {
+    return NO;
 }
 
 static Statement *enclosing = nil;

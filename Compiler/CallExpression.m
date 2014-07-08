@@ -9,6 +9,8 @@
 #import "CallExpression.h"
 #import "Identifier.h"
 #import "Temporary.h"
+#import "Environment.h"
+#import "Prototype.h"
 
 @implementation CallExpression
 
@@ -36,7 +38,9 @@
     NSMutableArray *reducedArray = [[NSMutableArray alloc] init];
     NSUInteger index = 0;
     for (Expression *arg in self.arguments) {
-        [reducedArray addObject:[arg reduce]];
+        TypeToken *type = [(Expression *)[[[Environment.globalScope prototypeForToken:identifier.operator] arguments] objectAtIndex:index] type];
+        [reducedArray addObject:[arg convert:type]];
+        index++;
     }
     return [[CallExpression alloc] initWithIdentifier:self.identifier arguments:[NSArray arrayWithArray:reducedArray]];
 #endif

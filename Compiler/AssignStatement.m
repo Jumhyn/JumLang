@@ -34,7 +34,7 @@
     return nil;
 }
 
--(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
+-(void)generateCodeWithBeforeLabel:(Label *)beforeLabel afterLabel:(Label *)afterLabel {
 #if LLVM == 0
     [self emit:[NSString stringWithFormat:@"%@ = %@", self.identifier, [self.expr generateRHS]]];
 #elif LLVM == 1

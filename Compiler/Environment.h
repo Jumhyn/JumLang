@@ -10,6 +10,7 @@
 
 @class Identifier;
 @class Token;
+@class Prototype;
 
 @interface Environment : NSObject
 
@@ -20,6 +21,9 @@
 
 -(Identifier *)identifierForToken:(Token *)token;
 -(void)setIdentifier:(Identifier *)identifier forToken:(Token *)token;
+
+-(Prototype *)prototypeForToken:(Token *)token;
+-(void)setPrototype:(Prototype *)prototype forToken:(Token *)token;
 
 +(Environment *)globalScope;
 

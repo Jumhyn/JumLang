@@ -14,6 +14,8 @@
 #import "TypeToken.h"
 #import "TokenStream.h"
 
+#define isws(x) x==' '||x=='\t'||x=='\n'||x=='\r'
+
 @implementation Lexer
 
 @synthesize buffer;
@@ -68,7 +70,7 @@
     }
     return stream;
 }
-            
+
 -(Token *)nextToken {
     unichar currentChar = '\0';
     @try {
@@ -80,36 +82,38 @@
         }
     }
     do {
-        if (currentChar == ' ' || currentChar == '\t') {
-            continue;
+        do {
+            if (currentChar == '\t' || currentChar == ' ') {
+                continue;
+            }
+            else if (currentChar == '\n') {
+                line++;
+                continue;
+            }
+            else {
+                break;
+            }
         }
-        else if (currentChar == '\n') {
-            line++;
-            continue;
-        }
-        else {
-            break;
-        }
-    }
-    while ((currentChar = [self nextCharacter]));
-    if (currentChar == '/' && characterIndex < [buffer length] - 1) {
-        if ([buffer characterAtIndex:characterIndex+1] == '/') {
-            while ((currentChar = [self nextCharacter]) != '\n' && currentChar != '\0');
-            line++;
-            currentChar = [self nextCharacter];
-        }
-        else if ([buffer characterAtIndex:characterIndex+1] == '*') {
-            currentChar = [self nextCharacter];
-            while ((currentChar = [self nextCharacter]) != '\0') {
-                if (currentChar == '*'  && characterIndex < [buffer length] - 1) {
-                    if ((currentChar = [self nextCharacter]) == '/') {
-                        currentChar = [self nextCharacter];
-                        break;
+        while ((currentChar = [self nextCharacter]));
+        if (currentChar == '/' && characterIndex < [buffer length] - 1) {
+            if ([buffer characterAtIndex:characterIndex+1] == '/') {
+                while ((currentChar = [self nextCharacter]) != '\n' && currentChar != '\0');
+                line++;
+                currentChar = [self nextCharacter];
+            }
+            else if ([buffer characterAtIndex:characterIndex+1] == '*') {
+                currentChar = [self nextCharacter];
+                while ((currentChar = [self nextCharacter]) != '\0') {
+                    if (currentChar == '*'  && characterIndex < [buffer length] - 1) {
+                        if ((currentChar = [self nextCharacter]) == '/') {
+                            currentChar = [self nextCharacter];
+                            break;
+                        }
                     }
                 }
             }
         }
-    }
+    } while ((currentChar == '/' && characterIndex < [buffer length] - 1) || isws(currentChar));
     if (isdigit(currentChar)) {
         int val = 0;
         do {

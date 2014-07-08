@@ -33,9 +33,9 @@
     [self emit:@"push base"];
     [self emit:@"mov stack -> base"];
     [self emit:[NSString stringWithFormat:@"sub %zu from stack", self.stackSpace]];
-    NSUInteger before = [self newLabel], after = [self newLabel];
+    Label *before = [self newLabel], *after = [self newLabel];
     [self emitLabel:before];
-    [body generateCodeWithBeforeLabelNumber:before afterLabelNumber:after];
+    [body generateCodeWithBeforeLabel:before afterLabel:after];
     [self emitLabel:after];
     [self emit:@"move base -> stack"];
     [self emit:@"pop base"];
@@ -54,10 +54,12 @@
     if (self.signature.isEntry) {
         [self emit:@"entry:"];
     }
-    NSUInteger before = [self newLabel], after = [self newLabel];
+    Label *before = [self newLabel], *after = [self newLabel];
     [self emitLabel:before];
-    [body generateCodeWithBeforeLabelNumber:before afterLabelNumber:after];
-    [self emitLabel:after];
+    [body generateCodeWithBeforeLabel:before afterLabel:after];
+    if ([body needsAfterLabel]) {
+        [self emitLabel:after];
+    }
     [self emit:@"}"];
 #endif
 }

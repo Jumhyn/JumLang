@@ -7,6 +7,7 @@
 //
 
 #import "BreakStatement.h"
+#import "Label.h"
 
 @implementation BreakStatement
 
@@ -22,8 +23,12 @@
     return self;
 }
 
--(void)generateCodeWithBeforeLabelNumber:(NSUInteger)beforeLabelNumber afterLabelNumber:(NSUInteger)afterLabelNumber {
-    [self emit:[NSString stringWithFormat:@"goto L%lu", self.stmt.savedAfterLabelNumber]];
+-(void)generateCodeWithBeforeLabel:(Label *)beforeLabel afterLabel:(Label *)afterLabel {
+#if LLVM == 0
+    [self emit:[NSString stringWithFormat:@"goto L%lu", self.stmt.savedAfterLabel]];
+#elif LLVM == 1
+    [self emit:[NSString stringWithFormat:@"br label %%L%lu", self.stmt.savedAfterLabel.number]];
+#endif
 }
 
 @end

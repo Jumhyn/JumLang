@@ -23,7 +23,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@", self.operator, self.expr];
+    return [NSString stringWithFormat:@"%@ %@ %@, 0", self.operator, self.type, self.expr];
 }
 
 @end

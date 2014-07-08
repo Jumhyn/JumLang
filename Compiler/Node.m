@@ -7,6 +7,7 @@
 //
 
 #import "Node.h"
+#import "Label.h"
 
 static NSUInteger labels = 0;
 
@@ -18,12 +19,14 @@ static NSUInteger labels = 0;
     [NSException raise:@"Syntax Error" format:@"ERROR:%@ near line %lu", error, self.lineNumber];
 }
 
--(NSUInteger)newLabel {
-    return ++labels;
+-(Label *)newLabel {
+    return [[Label alloc] initWithNumber:++labels];
 }
 
--(void)emitLabel:(NSUInteger)label {
-    printf("L%lu:\n", (unsigned long)label);
+-(void)emitLabel:(Label *)label {
+    if (label.referenced) {
+        printf("L%lu:\n", (unsigned long)label.number);
+    }
 }
 
 -(void)emit:(NSString *)string {
