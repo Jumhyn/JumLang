@@ -35,6 +35,7 @@
 #import "CallExpression.h"
 #import "ReturnStatement.h"
 #import "FunctionIdentifier.h"
+#import "ExpressionStatement.h"
 
 @implementation Parser
 
@@ -61,7 +62,7 @@
     NSMutableArray *functionArray = [[NSMutableArray alloc] init];
     do {
         [functionArray addObject:[self function]];
-    } while (lookahead.type == TOK_TYPE);
+    } while (lookahead.type == '[');
     return functionArray;
 }
 
@@ -81,6 +82,7 @@
 }
 
 -(Prototype *)prototype {
+    [self match:'['];
     TypeToken *typeTok = [self type];
     BOOL isEntry = NO;
     if (lookahead.type == TOK_ENTRY) {
@@ -89,25 +91,27 @@
     }
     WordToken *funcIdTok = (WordToken *)lookahead;
     [self match:TOK_ID];
-    [self match:'('];
     NSMutableArray *args = [[NSMutableArray alloc] init];
     usedSpace = __WORDSIZE / 8;
-    while (lookahead.type == TOK_TYPE) {
-        TypeToken *t = [self type];
-        Token *idTok = lookahead;
-        [self match:TOK_ID];
-        Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
-        identifier.isArgument = YES;
-        usedSpace += t.width;
-        [args addObject:identifier];
-        [topEnvironment setIdentifier:identifier forToken:idTok];
-        if (lookahead.type == ')') {
-            break;
-        }
-        [self match:','];
+    if (lookahead.type == ':') {
+        [self match:':'];
+        do {
+            TypeToken *t = [self type];
+            Token *idTok = lookahead;
+            [self match:TOK_ID];
+            Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+            identifier.isArgument = YES;
+            usedSpace += t.width;
+            [args addObject:identifier];
+            [topEnvironment setIdentifier:identifier forToken:idTok];
+            if (lookahead.type == ']') {
+                break;
+            }
+            [self match:','];
+        } while (lookahead.type == TOK_TYPE);
     }
     usedSpace = 0;
-    [self match:')'];
+    [self match:']'];
     FunctionIdentifier *funcIdentifier = [[FunctionIdentifier alloc] initWithOperator:funcIdTok type:typeTok offset:0];
     return [[Prototype alloc] initWithIdentifier:funcIdentifier arguments:[NSArray arrayWithArray:args] isEntry:isEntry];
 }
@@ -157,12 +161,12 @@
             [self match:TOK_IF];
             expr = [self expression];
             return [[IfStatement alloc] initWithExpression:expr statement:[self statement]];
-            break;
+
         case TOK_WHILE:
             [self match:TOK_WHILE];
             expr = [self expression];
             return [[WhileStatement alloc] initWithExpression:expr statement:[self statement]];
-            break;
+
         case TOK_DO:
             [self match:TOK_DO];
             stmt1 = [self statement];
@@ -170,6 +174,7 @@
             expr = [self expression];
             [self match:';'];
             return [[DoStatement alloc]initWithStatement:stmt1 expression:expr];
+
         case TOK_RETURN:
             [self match:TOK_RETURN];
             if (currentFunc.identifier.type == TypeToken.voidType) {
@@ -177,11 +182,12 @@
                     [self error:@"returning value from function with void return type"];
                 }
                 [self match:';'];
-                return [[ReturnStatement alloc] initWithExpression:[[Expression alloc] initWithOperator:nil type:TypeToken.voidType]];
+                return [[ReturnStatement alloc] initWithExpression:[[Expression alloc] initWithOperator:nil type:TypeToken.voidType] function:currentFunc];
             }
             expr = [self or];
             [self match:';'];
-            return [[ReturnStatement alloc] initWithExpression:expr];
+            return [[ReturnStatement alloc] initWithExpression:expr function:currentFunc];
+
         case TOK_TYPE: {
             TypeToken *t = [self type];
             Token *idTok = lookahead;
@@ -200,6 +206,11 @@
                 return [[AssignStatement alloc] initWithIdentifier:identifier expression:expr];
             }
         }
+
+        case '[':
+            expr = [self call];
+            return [[ExpressionStatement alloc] initWithExpression:expr];
+
         case '{':
             return [self block];
         default:
@@ -334,23 +345,12 @@
             [self match:TOK_FALSE];
             return expr;
 
+        case '[':
+            return [self call];
+
         case TOK_ID: {
             Identifier *identifier = [topEnvironment identifierForToken:lookahead];
             [self match:TOK_ID];
-            if (lookahead.type == '(') {
-                [self match:'('];
-                NSMutableArray *args = [[NSMutableArray alloc] init];
-                while (1) {
-                    Expression *arg = [self or];
-                    [args addObject:arg];
-                    if (lookahead.type == ')') {
-                        break;
-                    }
-                    [self match:','];
-                }
-                [self match:')'];
-                return [[CallExpression alloc] initWithIdentifier:identifier arguments:args];
-            }
             return identifier;
         }
         default:
@@ -358,6 +358,27 @@
             return expr;
             break;
     }
+}
+
+-(Expression *)call {
+    [self match:'['];
+    Token *idTok = lookahead;
+    [self match:TOK_ID];
+    Identifier *identifier = [topEnvironment identifierForToken:idTok];
+    NSMutableArray *args = [[NSMutableArray alloc] init];
+    if ([Environment.globalScope prototypeForToken:idTok].arguments.count > 0) {
+        [self match:':'];
+        while (1) {
+            Expression *arg = [self or];
+            [args addObject:arg];
+            if (lookahead.type == ']') {
+                break;
+            }
+            [self match:','];
+        }
+    }
+    [self match:']'];
+    return [[CallExpression alloc] initWithIdentifier:identifier arguments:args];
 }
 
 -(void)match:(tokenType)toMatch {

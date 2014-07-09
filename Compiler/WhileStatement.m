@@ -8,6 +8,8 @@
 
 #import "WhileStatement.h"
 #import "Label.h"
+#import "Relation.h"
+#import "Constant.h"
 
 @implementation WhileStatement
 
@@ -16,6 +18,9 @@
 
 -(id)initWithExpression:(Expression *)newExpr statement:(Statement *)newStmt {
     if (self = [super init]) {
+        if ([newExpr.type isNumeric]) {
+            newExpr = [[Relation alloc] initWithOperator:[Token tokenWithType:TOK_NEQUAL] expression1:newExpr expression2:[[Constant alloc] initWithInteger:0]];
+        }
         self.expr = newExpr;
         self.stmt = newStmt;
     }

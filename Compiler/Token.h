@@ -25,6 +25,7 @@ typedef enum {
     TOK_RPAREN = ')',
     TOK_LBRACKET = '[',
     TOK_RBRACKET = ']',
+    TOK_COLON = ':',
     TOK_SEMI = ';',
     TOK_NOT = '!',
     TOK_LEQUAL = 256,

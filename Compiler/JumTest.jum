@@ -1,42 +1,12 @@
-/*int entry test(int a, float b) {
-    int hello;
-    hello = 5;
-    hello = test(b-2, a-1);
-    if (hello + 3 > hello*-4) {
-        int testvar;
-        float testalso;
-        testvar = hello + 3;
-        testalso = 3.0 * testvar + 3 / 5.0;
-        hello = 6;
-        return hello;
-    }
-    return hello;
-}*/
-
-int somefunc(int arg) {
+[int somefunc: int arg] {
     return arg + 1;
 }
 
+[float noArgs] {
+    return 3;
+}
 
-int main() {
-    int hello = 3;
-    int x = hello + 4;
-    int y = -x;
-    if (hello == 4) {
-        return 5;
-    }
-    while (x > 0) {
-        x = x - 1;
-        y = y + 2;
-    }
-    hello = 5;
-    do {
-        int z;
-        z = y;
-        x = -z;
-        z = somefunc(x);
-        y = z;
-        hello = hello - 1;
-    } while (hello > 0);
-    return y;
+
+[int main] {
+    return [somefunc: 3] * [noArgs];
 }

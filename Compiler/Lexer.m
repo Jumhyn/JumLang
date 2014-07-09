@@ -26,7 +26,7 @@
 
 -(id)init {
     if (self = [super init]) {
-        line = 0;
+        line = 1;
         characterIndex = 0;
         wordDict = [[NSMutableDictionary alloc] init];
         stream = [[TokenStream alloc] init];
@@ -43,6 +43,7 @@
         [self reserveWord:TypeToken.intType];
         [self reserveWord:TypeToken.floatType];
         [self reserveWord:TypeToken.boolType];
+        [self reserveWord:TypeToken.voidType];
     }
     return self;
 }
@@ -181,7 +182,7 @@
             return [Token tokenWithType:TOK_NEQUAL];
         }
         else {
-            [self error:@"unary '!' is not yet supported"];
+            return [Token tokenWithType:'!'];
         }
     }
     else if (currentChar == '&') {

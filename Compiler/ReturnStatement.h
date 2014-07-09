@@ -7,13 +7,15 @@
 //
 
 #import "Statement.h"
+#import "Prototype.h"
 
 @class Expression;
 
 @interface ReturnStatement : Statement
 
 @property(nonatomic, retain) Expression *expr;
+@property(nonatomic, retain) Prototype *func;
 
--(id)initWithExpression:(Expression *)newExpr;
+-(id)initWithExpression:(Expression *)newExpr function:(Prototype *)newFunc;
 
 @end

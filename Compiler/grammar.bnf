@@ -3,7 +3,7 @@
 <functions>       ::= <function> <functions>
                     | eps
                   
-<function>        ::= <type-or-void> <identifier> "(" <arg-list> ")" <block>
+<function>        ::= "[" <type-or-void> <identifier> ":" <arg-list> "]" <block>
 
 <type-or-void>    ::= <type>
                     | "void"
@@ -32,6 +32,7 @@
                     | <block>
                     | <assignment>
                     | <declaration>
+                    | <call>
                   
 <if-statement>    ::= "if" <expression> <statement>
 
@@ -88,6 +89,15 @@
 <expression>      ::= "(" <or> ")"
                     | <constant>
                     | <identifier>
+                    | <call>
+                    
+<call>            ::= "[" <identifier> ":" <args> "]"
+
+<args>            ::= <args-comma> <or>
+                    | eps
+                    
+<args-comma>      ::= <or> "," <args-comma>
+                    | eps
                     
 <constant>        ::= "true"
                     | "false"
