@@ -13,7 +13,8 @@
 
 @property(nonatomic, retain) Expression *expr;
 @property(nonatomic, retain) Statement *stmt;
+@property(nonatomic, retain) Statement *elseStmt;
 
--(id)initWithExpression:(Expression *)newExpr statement:(Statement *)newStmt;
+-(id)initWithExpression:(Expression *)newExpr statement:(Statement *)newStmt elseStatement:(Statement *)newElseStmt;
 
 @end

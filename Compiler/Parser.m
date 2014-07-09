@@ -155,12 +155,18 @@
 
 -(Statement *)statement {
     Expression *expr;
-    Statement *stmt1, *stmt2;
+    Statement *stmt, *stmt2;
     switch (lookahead.type) {
         case TOK_IF:
             [self match:TOK_IF];
             expr = [self expression];
-            return [[IfStatement alloc] initWithExpression:expr statement:[self statement]];
+            stmt = [self statement];
+            stmt2 = nil;
+            if (lookahead.type == TOK_ELSE) {
+                [self match:TOK_ELSE];
+                stmt2 = [self statement];
+            }
+            return [[IfStatement alloc] initWithExpression:expr statement:stmt elseStatement:stmt2];
 
         case TOK_WHILE:
             [self match:TOK_WHILE];
@@ -169,11 +175,11 @@
 
         case TOK_DO:
             [self match:TOK_DO];
-            stmt1 = [self statement];
+            stmt = [self statement];
             [self match:TOK_WHILE];
             expr = [self expression];
             [self match:';'];
-            return [[DoStatement alloc]initWithStatement:stmt1 expression:expr];
+            return [[DoStatement alloc]initWithStatement:stmt expression:expr];
 
         case TOK_RETURN:
             [self match:TOK_RETURN];

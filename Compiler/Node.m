@@ -12,6 +12,7 @@
 static NSUInteger labels = 0;
 #if LLVM == 1
 static BOOL blockEnd = YES;
+static BOOL codeReachable = YES;
 
 @implementation NSString (LLVMExtensions)
 
@@ -43,13 +44,23 @@ static BOOL blockEnd = YES;
             printf("br label %%L%lu\n", (unsigned long)label.number);
         }
         printf("L%lu:\n", (unsigned long)label.number);
+        codeReachable = YES;
     }
 #endif
 }
 
 -(void)emit:(NSString *)string {
 #if LLVM == 1
+    if ([string hasPrefix:@"}"]) {
+        codeReachable = YES;
+    }
+    if (!codeReachable) {
+        printf("unreachable\n");
+    }
     if ([string endsBasicBlock]) {
+        if ([string hasPrefix:@"ret"]) {
+            codeReachable = NO;
+        }
         blockEnd = YES;
     }
     else if (!([string hasPrefix:@"define"] || [string hasPrefix:@"}"])) {
