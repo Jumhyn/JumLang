@@ -13,6 +13,7 @@
 @property(nonatomic, assign) NSInteger offset;
 @property(nonatomic, assign, getter = isAllocated) BOOL allocated;
 @property(nonatomic, assign, getter = isArgument) BOOL isArgument;
+@property(nonatomic, assign, getter = isGlobal) BOOL global;
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset;
 

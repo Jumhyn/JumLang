@@ -38,7 +38,7 @@
 #if LLVM == 0
     [self emit:[NSString stringWithFormat:@"%@ = %@", self.identifier, [self.expr generateRHS]]];
 #elif LLVM == 1
-    if (!self.identifier.allocated) {
+    if (!(self.identifier.allocated || self.identifier.isArgument)) {
         [self emit:[NSString stringWithFormat:@"%@ = alloca %@", self.identifier, self.identifier.type]];
         self.identifier.allocated = YES;
     }

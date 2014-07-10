@@ -14,12 +14,14 @@
 @synthesize offset;
 @synthesize allocated;
 @synthesize isArgument;
+@synthesize global;
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset {
     if (self = [super initWithOperator:newOperator type:newType]) {
         self.offset = newOffset;
         self.allocated = NO;
         self.isArgument = NO;
+        self.global = NO;
     }
     return self;
 }
@@ -41,7 +43,8 @@
 #if LLVM == 0
     return [NSString stringWithFormat:@"%ld(base)", self.offset];
 #elif LLVM == 1
-    return [NSString stringWithFormat:@"%%%@", [super description]];
+    NSString *prefix = (self.isGlobal) ? @"@" : @"%";
+    return [NSString stringWithFormat:@"%@%@", prefix, [super description]];
 #endif
 }
 

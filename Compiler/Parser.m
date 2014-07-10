@@ -61,9 +61,57 @@
 -(NSArray *)program {
     NSMutableArray *functionArray = [[NSMutableArray alloc] init];
     do {
-        [functionArray addObject:[self function]];
-    } while (lookahead.type == '[');
+        if (lookahead.type == '[') {
+            [functionArray addObject:[self function]];
+        }
+        else if (lookahead.type == TOK_TYPE) {
+            [self matchGlobalDeclaration];
+        }
+    } while (lookahead.type == '[' || lookahead.type == TOK_TYPE);
     return functionArray;
+}
+
+-(void)matchGlobalDeclaration {
+    TypeToken *type = [self type];
+    WordToken *idTok = (WordToken *)lookahead;
+    Identifier *globalIdentifier = [[Identifier alloc] initWithOperator:idTok type:type offset:0];
+    globalIdentifier.global = YES;
+    [self match:TOK_ID];
+    [self match:'='];
+    Constant *constant = [self constant];
+    if (!constant) {
+        [self error:@"initializer for global variable must be compile time constant"];
+    }
+    [Environment.globalScope setIdentifier:globalIdentifier forToken:idTok];
+    [self match:';'];
+    printf("%s\n", [NSString stringWithFormat:@"%@ = global %@ %@", globalIdentifier, type, constant].UTF8String);
+}
+
+-(Constant *)constant {
+    Constant *expr = nil;
+    switch (lookahead.type) {
+        case TOK_NUM:
+            expr = [[Constant alloc] initWithInteger:[(NumToken *)lookahead value]];
+            [self match:TOK_NUM];
+            return expr;
+
+        case TOK_FLOAT:
+            expr = [[Constant alloc] initWithFloat:[(FloatToken *)lookahead value]];
+            [self match:TOK_FLOAT];
+            return expr;
+
+        case TOK_TRUE:
+            expr = Constant.trueConstant;
+            [self match:TOK_TRUE];
+            return expr;
+
+        case TOK_FALSE:
+            expr = Constant.falseConstant;
+            [self match:TOK_FALSE];
+        default:
+            return expr;
+
+    }
 }
 
 -(Function *)function {
@@ -332,24 +380,10 @@
             return expr;
 
         case TOK_NUM:
-            expr = [[Constant alloc] initWithInteger:[(NumToken *)lookahead value]];
-            [self match:TOK_NUM];
-            return expr;
-
         case TOK_FLOAT:
-            expr = [[Constant alloc] initWithFloat:[(FloatToken *)lookahead value]];
-            [self match:TOK_FLOAT];
-            return expr;
-
         case TOK_TRUE:
-            expr = Constant.trueConstant;
-            [self match:TOK_TRUE];
-            return expr;
-
         case TOK_FALSE:
-            expr = Constant.falseConstant;
-            [self match:TOK_FALSE];
-            return expr;
+            return [self constant];
 
         case '[':
             return [self call];

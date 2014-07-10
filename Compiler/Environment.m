@@ -30,11 +30,14 @@ static NSMutableDictionary *funcTable = nil;
 }
 
 -(Identifier *)identifierForToken:(Token *)token {
+    Identifier *ret;
     for (Environment *env = self; env != nil; env = env.previousEnvironment) {
-        Identifier *ret;
         if ((ret = [env.symbolTable objectForKey:token])) {
             return ret;
         }
+    }
+    if ((ret = [Environment.globalScope.symbolTable objectForKey:token])) {
+        return ret;
     }
     Prototype *proto = [self prototypeForToken:token];
     if (proto) {

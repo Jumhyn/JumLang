@@ -29,8 +29,8 @@ int main(int argc, const char * argv[]) {
                                                      }"];
         Lexer *lex = [[Lexer alloc] initWithContentsOfFile:@"/Users/freddy/Development/Xcode Projects/Compiler/Compiler/JumTest.jum"];
         TokenStream *stream = [lex lex];
+        printf("target triple = \"x86_64-apple-macosx10.10.0\"\n");
         NSArray *program = [[[Parser alloc] initWithTokenStream:stream] program];
-        [[program[0] body] emit:@"target triple = \"x86_64-apple-macosx10.10.0\""];
         for (Function *func in program) {
             [func generateCode];
         }

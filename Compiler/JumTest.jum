@@ -1,22 +1,13 @@
-[int somefunc: int arg] {
-    return arg + 1;
+[int superpow: int num] {
+    int res = 1;
+    int i = 0;
+    while (i < num) {
+        res = res * num;
+        i = i + 1;
+    }
+    return res;
 }
-
-[float noArgs] {
-    return 3;
-}
-
 
 [int main] {
-    int x = [somefunc: 3];
-    if (x == 2) {
-        x = x + 1;
-    }
-    else if (x == 3) {
-        return 11;
-    }
-    else {
-        return 12;
-    }
-    return x;
+    return [superpow: 5];
 }
