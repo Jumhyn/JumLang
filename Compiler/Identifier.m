@@ -8,6 +8,8 @@
 
 #import "Identifier.h"
 #import "Temporary.h"
+#import "Load.h"
+#import "PointerType.h"
 
 @implementation Identifier
 
@@ -27,16 +29,13 @@
 }
 
 -(Expression *)reduce {
-    if (self.isArgument) {
-        return self;
-    }
     Temporary *temp = [[Temporary alloc] initWithType:self.type];
     [self emit:[NSString stringWithFormat:@"%@ = load %@* %@", temp, self.type, self]];
     return temp;
 }
 
 -(Expression *)generateRHS {
-    return self.reduce;
+    return [[Load alloc] initWithIdentifier:self];
 }
 
 -(NSString *)description {
@@ -44,7 +43,8 @@
     return [NSString stringWithFormat:@"%ld(base)", self.offset];
 #elif LLVM == 1
     NSString *prefix = (self.isGlobal) ? @"@" : @"%";
-    return [NSString stringWithFormat:@"%@%@", prefix, [super description]];
+    NSString *postfix = (self.isArgument) ? @".arg" : @"";
+    return [NSString stringWithFormat:@"%@%@%@", prefix, [super description], postfix];
 #endif
 }
 

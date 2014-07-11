@@ -15,6 +15,8 @@
 @property(nonatomic, readonly) BOOL isNumeric;
 @property(nonatomic, readonly) size_t width;
 
+-(id)initWithType:(tokenType)newType lexeme:(NSString *)newLexeme width:(size_t)newWidth;
+
 +(TypeToken *)charType;
 +(TypeToken *)intType;
 +(TypeToken *)floatType;

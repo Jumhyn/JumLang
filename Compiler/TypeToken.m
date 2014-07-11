@@ -39,21 +39,23 @@
 #if LLVM == 0
     return [super description];
 #elif LLVM == 1
+    NSMutableString *ret = [@"" mutableCopy];
     if (self == TypeToken.charType) {
-        return @"i8";
+        [ret appendString:@"i8"];
     }
     else if (self == TypeToken.intType) {
-        return @"i32";
+        [ret appendString:@"i32"];
     }
     else if (self == TypeToken.floatType) {
-        return @"double";
+        [ret appendString:@"double"];
     }
     else if (self == TypeToken.boolType) {
-        return @"i1";
+        [ret appendString:@"i1"];
     }
     else {
         return [super description];
     }
+    return ret;
 #endif
 }
 

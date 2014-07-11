@@ -36,6 +36,10 @@
 #import "ReturnStatement.h"
 #import "FunctionIdentifier.h"
 #import "ExpressionStatement.h"
+#import "ArrayType.h"
+#import "PointerType.h"
+#import "Access.h"
+#import "SetElementStatement.h"
 
 @implementation Parser
 
@@ -246,18 +250,36 @@
             TypeToken *t = [self type];
             Token *idTok = lookahead;
             [self match:TOK_ID];
-            usedSpace -= t.width;
-            Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
-            [topEnvironment setIdentifier:identifier forToken:idTok];
             if (lookahead.type == ';') {
+                usedSpace -= t.width;
+                Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+                [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:';'];
                 return [self statement];
             }
-            else {
+            else if (lookahead.type == '=') {
+                usedSpace -= t.width;
+                Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+                [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:'='];
                 expr = [self or];
                 [self match:';'];
                 return [[AssignStatement alloc] initWithIdentifier:identifier expression:expr];
+            }
+            else if (lookahead.type == '[') {
+                [self match:'['];
+                NSInteger value = [(NumToken *)lookahead value];
+                [self match:TOK_NUM];
+                if (value < 0) {
+                    [self error:@"array index must be positive integer"];
+                }
+                ArrayType *array = [[ArrayType alloc] initWithType:t elements:(size_t)value];
+                usedSpace -= t.width;
+                Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:array offset:usedSpace];
+                [topEnvironment setIdentifier:identifier forToken:idTok];
+                [self match:']'];
+                [self match:';'];
+                return [self statement];
             }
         }
 
@@ -278,10 +300,29 @@
     Token *idTok = lookahead;
     [self match:TOK_ID];
     Identifier *identifier = [topEnvironment identifierForToken:idTok];
-    [self match:TOK_ASSIGN];
-    stmt = [[AssignStatement alloc] initWithIdentifier:identifier expression:[self or]];
-    [self match:';'];
-    return stmt;
+    if (lookahead.type == '=') {
+        [self match:'='];
+        stmt = [[AssignStatement alloc] initWithIdentifier:identifier expression:[self or]];
+        [self match:';'];
+        return stmt;
+    }
+    else if (lookahead.type == '[') {
+        [self match:'['];
+        if (identifier.type.type != TOK_ARRAY) {
+            [self error:@"attempt to access index of non-array type"];
+        }
+        Expression *indexExpr = [self or];
+        [self match:']'];
+        [self match:'='];
+        Expression *expr = [self or];
+        [self match:';'];
+        Access *element = [[Access alloc] initWithIdentifier:identifier indexExpression:indexExpr type:[(ArrayType *)identifier.type to]];
+        return [[SetElementStatement alloc] initWithElement:element expression:expr];
+    }
+    else {
+        [self error:@"expected array access or assignment epression"];
+        return nil;
+    }
 }
 
 -(Expression *)or {
@@ -391,6 +432,16 @@
         case TOK_ID: {
             Identifier *identifier = [topEnvironment identifierForToken:lookahead];
             [self match:TOK_ID];
+            if (lookahead.type == '[') {
+                [self match:'['];
+                if (identifier.type.type != TOK_ARRAY) {
+                    [self error:@"attempt to access index of non-array type"];
+                }
+                Expression *indexExpr = [self or];
+                [self match:']'];
+                Access *element = [[Access alloc] initWithIdentifier:identifier indexExpression:indexExpr type:[(ArrayType *)identifier.type to]];
+                return element;
+            }
             return identifier;
         }
         default:

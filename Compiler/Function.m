@@ -44,13 +44,18 @@
     NSMutableString *sig = [@"" mutableCopy];
     [sig appendString:[NSString stringWithFormat:@"define %@ %@(", self.signature.identifier.type, self.signature.identifier]];
     for (Identifier *arg in self.signature.arguments) {
-        [sig appendString:[NSString stringWithFormat:@"%@ %@", arg.type, arg]];
+        [sig appendString:[NSString stringWithFormat:@"%@ %%%@", arg.type, arg.operator]];
         if ([self.signature.arguments indexOfObject:arg] < self.signature.arguments.count-1) {
             [sig appendString:@", "];
         }
     }
     [sig appendString:@") {"];
     [self emit:sig];
+    for (Identifier *arg in self.signature.arguments) {
+        [self emit:[NSString stringWithFormat:@"%@ = alloca %@", arg, arg.type]];
+        [self emit:[NSString stringWithFormat:@"store %@ %%%@, %@* %@", arg.type, arg.operator, arg.type, arg]];
+        arg.allocated = YES;
+    }
     if (self.signature.isEntry) {
         [self emit:@"entry:"];
     }

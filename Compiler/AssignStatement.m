@@ -10,6 +10,7 @@
 #import "Expression.h"
 #import "Identifier.h"
 #import "TypeToken.h"
+#import "PointerType.h"
 
 @implementation AssignStatement
 
@@ -38,11 +39,11 @@
 #if LLVM == 0
     [self emit:[NSString stringWithFormat:@"%@ = %@", self.identifier, [self.expr generateRHS]]];
 #elif LLVM == 1
-    if (!(self.identifier.allocated || self.identifier.isArgument)) {
+    if (!self.identifier.allocated) {
         [self emit:[NSString stringWithFormat:@"%@ = alloca %@", self.identifier, self.identifier.type]];
         self.identifier.allocated = YES;
     }
-    Expression *reduced = self.expr.reduce;
+    Expression *reduced = [self.expr convert:self.identifier.type];
     [self emit:[NSString stringWithFormat:@"store %@ %@, %@* %@", reduced.type, reduced, self.identifier.type, self.identifier]];
 #endif
 }

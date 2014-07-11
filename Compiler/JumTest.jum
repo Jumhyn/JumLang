@@ -1,13 +1,5 @@
-[int superpow: int num] {
-    int res = 1;
-    int i = 0;
-    while (i < num) {
-        res = res * num;
-        i = i + 1;
-    }
-    return res;
-}
-
 [int main] {
-    return [superpow: 5];
+    int x[3];
+    x[1] = 0;
+    return x[1];
 }

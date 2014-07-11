@@ -30,6 +30,11 @@
 		B60270CC1915B6D400EA38B2 /* Arithmetic.m in Sources */ = {isa = PBXBuildFile; fileRef = B60270CB1915B6D400EA38B2 /* Arithmetic.m */; };
 		B6243C85196BADAE00B796D5 /* Label.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C84196BADAE00B796D5 /* Label.m */; };
 		B6243C88196CD71500B796D5 /* ExpressionStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C87196CD71500B796D5 /* ExpressionStatement.m */; };
+		B6243C91196F737100B796D5 /* ArrayType.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C90196F737100B796D5 /* ArrayType.m */; };
+		B6243C94196F9BE400B796D5 /* Access.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C93196F9BE400B796D5 /* Access.m */; };
+		B6243C97196FA2D900B796D5 /* Load.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C96196FA2D900B796D5 /* Load.m */; };
+		B6243C9A196FA96500B796D5 /* PointerType.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C99196FA96500B796D5 /* PointerType.m */; };
+		B6243C9D196FBBC400B796D5 /* SetElementStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243C9C196FBBC400B796D5 /* SetElementStatement.m */; };
 		B6C3D3191964D74E00B65626 /* Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D3181964D74E00B65626 /* Environment.m */; };
 		B6C3D31C1964E49400B65626 /* Temporary.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D31B1964E49400B65626 /* Temporary.m */; };
 		B6C3D31F1964E96500B65626 /* Unary.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C3D31E1964E96500B65626 /* Unary.m */; };
@@ -109,6 +114,16 @@
 		B6243C84196BADAE00B796D5 /* Label.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Label.m; sourceTree = "<group>"; };
 		B6243C86196CD71500B796D5 /* ExpressionStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionStatement.h; sourceTree = "<group>"; };
 		B6243C87196CD71500B796D5 /* ExpressionStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpressionStatement.m; sourceTree = "<group>"; };
+		B6243C8F196F737100B796D5 /* ArrayType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayType.h; sourceTree = "<group>"; };
+		B6243C90196F737100B796D5 /* ArrayType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayType.m; sourceTree = "<group>"; };
+		B6243C92196F9BE400B796D5 /* Access.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Access.h; sourceTree = "<group>"; };
+		B6243C93196F9BE400B796D5 /* Access.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Access.m; sourceTree = "<group>"; };
+		B6243C95196FA2D900B796D5 /* Load.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Load.h; sourceTree = "<group>"; };
+		B6243C96196FA2D900B796D5 /* Load.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Load.m; sourceTree = "<group>"; };
+		B6243C98196FA96500B796D5 /* PointerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerType.h; sourceTree = "<group>"; };
+		B6243C99196FA96500B796D5 /* PointerType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerType.m; sourceTree = "<group>"; };
+		B6243C9B196FBBC400B796D5 /* SetElementStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetElementStatement.h; sourceTree = "<group>"; };
+		B6243C9C196FBBC400B796D5 /* SetElementStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetElementStatement.m; sourceTree = "<group>"; };
 		B6C3D3171964D74E00B65626 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Environment.h; sourceTree = "<group>"; };
 		B6C3D3181964D74E00B65626 /* Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Environment.m; sourceTree = "<group>"; };
 		B6C3D31A1964E49400B65626 /* Temporary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Temporary.h; sourceTree = "<group>"; };
@@ -229,6 +244,10 @@
 				B60270A31913570600EA38B2 /* WordToken.m */,
 				B60270C11915ADDE00EA38B2 /* TypeToken.h */,
 				B60270C21915ADDE00EA38B2 /* TypeToken.m */,
+				B6243C98196FA96500B796D5 /* PointerType.h */,
+				B6243C99196FA96500B796D5 /* PointerType.m */,
+				B6243C8F196F737100B796D5 /* ArrayType.h */,
+				B6243C90196F737100B796D5 /* ArrayType.m */,
 			);
 			name = Tokens;
 			sourceTree = "<group>";
@@ -265,6 +284,8 @@
 				B6C3D3421969D02D00B65626 /* ReturnStatement.m */,
 				B6243C86196CD71500B796D5 /* ExpressionStatement.h */,
 				B6243C87196CD71500B796D5 /* ExpressionStatement.m */,
+				B6243C9B196FBBC400B796D5 /* SetElementStatement.h */,
+				B6243C9C196FBBC400B796D5 /* SetElementStatement.m */,
 			);
 			name = Statements;
 			sourceTree = "<group>";
@@ -300,6 +321,10 @@
 				B6C3D3301965310500B65626 /* Relation.m */,
 				B6C3D3381969268E00B65626 /* CallExpression.h */,
 				B6C3D3391969268E00B65626 /* CallExpression.m */,
+				B6243C92196F9BE400B796D5 /* Access.h */,
+				B6243C93196F9BE400B796D5 /* Access.m */,
+				B6243C95196FA2D900B796D5 /* Load.h */,
+				B6243C96196FA2D900B796D5 /* Load.m */,
 			);
 			name = Expressions;
 			sourceTree = "<group>";
@@ -356,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3D33419677D7A00B65626 /* AssignStatement.m in Sources */,
+				B6243C9D196FBBC400B796D5 /* SetElementStatement.m in Sources */,
 				B6C3D3461969EFF100B65626 /* FunctionIdentifier.m in Sources */,
 				B602709E1913237C00EA38B2 /* TokenStream.m in Sources */,
 				B6C3D3191964D74E00B65626 /* Environment.m in Sources */,
@@ -366,6 +392,7 @@
 				B6C3D3371967810800B65626 /* BreakStatement.m in Sources */,
 				B60270A41913570600EA38B2 /* WordToken.m in Sources */,
 				B60270B519157B1800EA38B2 /* Sequence.m in Sources */,
+				B6243C91196F737100B796D5 /* ArrayType.m in Sources */,
 				B602709B191322F800EA38B2 /* Parser.m in Sources */,
 				B6C3D33F1969268E00B65626 /* Function.m in Sources */,
 				B60270CC1915B6D400EA38B2 /* Arithmetic.m in Sources */,
@@ -379,13 +406,16 @@
 				B60270951913223200EA38B2 /* Lexer.m in Sources */,
 				B60270AC1915782A00EA38B2 /* Node.m in Sources */,
 				B60270C31915ADDE00EA38B2 /* TypeToken.m in Sources */,
+				B6243C97196FA2D900B796D5 /* Load.m in Sources */,
 				B60270A11913564700EA38B2 /* NumToken.m in Sources */,
+				B6243C94196F9BE400B796D5 /* Access.m in Sources */,
 				B6C3D31F1964E96500B65626 /* Unary.m in Sources */,
 				B6C3D31C1964E49400B65626 /* Temporary.m in Sources */,
 				B60270A71913720300EA38B2 /* FloatToken.m in Sources */,
 				B6C3D3401969268E00B65626 /* Prototype.m in Sources */,
 				B6C3D3431969D02D00B65626 /* ReturnStatement.m in Sources */,
 				B60270B21915784600EA38B2 /* Expression.m in Sources */,
+				B6243C9A196FA96500B796D5 /* PointerType.m in Sources */,
 				B6C3D3311965310500B65626 /* Relation.m in Sources */,
 				B60270BE19157CF700EA38B2 /* DoStatement.m in Sources */,
 				B6027089191321FF00EA38B2 /* main.m in Sources */,

@@ -47,6 +47,8 @@ typedef enum {
     TOK_BREAK,
     TOK_RETURN,
     TOK_ENTRY,
+    TOK_ARRAY,
+    TOK_INDEX,
     TOK_TEMP,
 } tokenType;
 
