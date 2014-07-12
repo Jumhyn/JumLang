@@ -9,8 +9,11 @@
 #import "Environment.h"
 #import "Identifier.h"
 #import "Prototype.h"
+#import "ArrayType.h"
+#import "WordToken.h"
 
 static NSMutableDictionary *funcTable = nil;
+static NSMutableDictionary *stringTable = nil;
 
 @implementation Environment
 
@@ -68,11 +71,29 @@ static NSMutableDictionary *funcTable = nil;
     }
 }
 
+-(void)setIdentifier:(Identifier*)identifier forString:(WordToken *)string {
+    if ([stringTable objectForKey:string]) {
+        [self error:@"error defining string literal" line:identifier.lineNumber];
+    }
+    else {
+        [stringTable setObject:identifier forKey:string];
+    }
+}
+
+-(void)initializeStrings {
+    for (WordToken *string in [stringTable allKeys]) {
+        Identifier *identifier = [stringTable objectForKey:string];
+        printf("%s = private unnamed_addr constant [%lu x i8] c\"%s\\00\"\n", identifier.description.UTF8String, [(ArrayType*)identifier.type elements], string.lexeme.UTF8String);
+        identifier.allocated = YES;
+    }
+}
+
 +(Environment *)globalScope {
     static Environment *globalScope = nil;
     if (globalScope == nil) {
         globalScope = [[Environment alloc] initWithPreviousEnvironment:nil];
         funcTable = [[NSMutableDictionary alloc] init];
+        stringTable = [[NSMutableDictionary alloc] init];
     }
     return globalScope;
 }

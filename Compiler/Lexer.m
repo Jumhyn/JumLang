@@ -197,9 +197,31 @@
             return [Token tokenWithType:TOK_AND];
         }
     }
+    else if (currentChar == '"') {
+        NSMutableString *str = [@"" mutableCopy];
+        while ((currentChar = [self nextCharacter]) != '"') {
+            unichar toAppend = currentChar;
+            [str appendFormat:@"%c", toAppend];
+        }
+        [str appendString:@"\0"];
+        characterIndex++;
+        return [WordToken tokenWithType:TOK_STR lexeme:[NSString stringWithString:str]];
+    }
     else {
         characterIndex++;
         return [Token tokenWithType:currentChar];
+    }
+}
+
+-(unichar)escapeChar:(unichar)escape {
+    switch (escape) {
+        case 'n':
+            return '\n';
+
+        case '\\':
+            return '\\';
+        default:
+            return '\0';
     }
 }
 

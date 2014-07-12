@@ -12,6 +12,7 @@
 #import "Statement.h"
 #import "Parser.h"
 #import "Function.h"
+#import "Environment.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -31,6 +32,7 @@ int main(int argc, const char * argv[]) {
         TokenStream *stream = [lex lex];
         printf("target triple = \"x86_64-apple-macosx10.10.0\"\n");
         NSArray *program = [[[Parser alloc] initWithTokenStream:stream] program];
+        [Environment.globalScope initializeStrings];
         for (Function *func in program) {
             [func generateCode];
         }

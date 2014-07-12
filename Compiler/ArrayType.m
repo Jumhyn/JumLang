@@ -25,4 +25,11 @@
     return [NSString stringWithFormat:@"[%zu x %@]*", self.elements, self.to];
 }
 
+-(BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[ArrayType class]]) {
+        return [self.to isEqual:[(ArrayType *)object to]] && [(ArrayType *)object elements] == self.elements;
+    }
+    return NO;
+}
+
 @end

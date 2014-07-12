@@ -11,6 +11,7 @@
 @class Identifier;
 @class Token;
 @class Prototype;
+@class WordToken;
 
 @interface Environment : NSObject
 
@@ -24,6 +25,9 @@
 
 -(Prototype *)prototypeForToken:(Token *)token;
 -(void)setPrototype:(Prototype *)prototype forToken:(Token *)token;
+
+-(void)setIdentifier:(Identifier*)identifier forString:(WordToken *)string;
+-(void)initializeStrings;
 
 +(Environment *)globalScope;
 

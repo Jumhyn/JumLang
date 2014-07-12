@@ -35,14 +35,24 @@
     if (self.type == to) {
         return [self reduce];
     }
-    else if (self.type == TypeToken.intType && to == TypeToken.floatType) {
+    else if ((self.type == TypeToken.intType || self.type == TypeToken.charType) && to == TypeToken.floatType) {
         Temporary *temp = [[Temporary alloc] initWithType:to];
         [self emit:[NSString stringWithFormat:@"%@ = sitofp %@ %@ to %@", temp, self.type, [self reduce], to]];
         return temp;
     }
-    else if (self.type == TypeToken.floatType && to == TypeToken.intType) {
+    else if (self.type == TypeToken.floatType && (self.type == TypeToken.intType || self.type == TypeToken.charType)) {
         Temporary *temp = [[Temporary alloc] initWithType:to];
         [self emit:[NSString stringWithFormat:@"%@ = fptosi %@ %@ to %@", temp, self.type, [self reduce], to]];
+        return temp;
+    }
+    else if (self.type == TypeToken.intType && to == TypeToken.charType) {
+        Temporary *temp = [[Temporary alloc] initWithType:to];
+        [self emit:[NSString stringWithFormat:@"%@ = trunc %@ %@ to %@", temp, self.type, [self reduce], to]];
+        return temp;
+    }
+    else if (self.type == TypeToken.charType && to == TypeToken.intType) {
+        Temporary *temp = [[Temporary alloc] initWithType:to];
+        [self emit:[NSString stringWithFormat:@"%@ = zext %@ %@ to %@", temp, self.type, [self reduce], to]];
         return temp;
     }
     else {

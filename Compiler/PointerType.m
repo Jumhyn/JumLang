@@ -23,4 +23,11 @@
     return [NSString stringWithFormat:@"%@*", self.to];
 }
 
+-(BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[PointerType class]]) {
+        return [self.to isEqual:[(PointerType *)object to]];
+    }
+    return NO;
+}
+
 @end

@@ -59,6 +59,10 @@
 #endif
 }
 
+-(BOOL)isEqual:(id)object {
+    return self == object;
+}
+
 +(TypeToken *)charType {
     static TypeToken *charType = nil;
     if (charType == nil) {

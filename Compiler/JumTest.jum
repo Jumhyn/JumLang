@@ -1,5 +1,4 @@
 [int main] {
-    int x[3];
-    x[1] = 0;
-    return x[1];
+    char str[3] = "hi";
+    return str[1];
 }

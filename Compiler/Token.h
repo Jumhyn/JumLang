@@ -49,6 +49,7 @@ typedef enum {
     TOK_ENTRY,
     TOK_ARRAY,
     TOK_INDEX,
+    TOK_STR,
     TOK_TEMP,
 } tokenType;
 

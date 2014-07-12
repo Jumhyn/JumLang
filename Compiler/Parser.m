@@ -275,9 +275,25 @@
                 }
                 ArrayType *array = [[ArrayType alloc] initWithType:t elements:(size_t)value];
                 usedSpace -= t.width;
-                Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:array offset:usedSpace];
-                [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:']'];
+                Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:array offset:usedSpace];
+                if (lookahead.type == '=') {
+                    [self match:'='];
+                    if (lookahead.type != TOK_STR) {
+                        [self error:@"array initializer must be string constant"];
+                    }
+                    if (array.to != TypeToken.charType) {
+                        [self error:@"only char arrays may be initialized with string constants"];
+                    }
+                    WordToken *strTok = (WordToken *)lookahead;
+                    [self match:TOK_STR];
+                    if (strTok.lexeme.length != value) {
+                        [self error:@"array and string length must agree (including trailing \\0)"];
+                    }
+                    identifier.global = YES;
+                    [Environment.globalScope setIdentifier:identifier forString:strTok];
+                }
+                [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:';'];
                 return [self statement];
             }
