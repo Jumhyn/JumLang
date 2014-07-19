@@ -14,6 +14,7 @@
 
 static NSMutableDictionary *funcTable = nil;
 static NSMutableDictionary *stringTable = nil;
+static NSUInteger scopeCount = 0;
 
 @implementation Environment
 
@@ -28,6 +29,7 @@ static NSMutableDictionary *stringTable = nil;
     if (self = [super init]) {
         self.symbolTable = [[NSMutableDictionary alloc] init];
         self.previousEnvironment = newPreviousEnvironment;
+        scopeCount++;
     }
     return self;
 }
@@ -51,7 +53,13 @@ static NSMutableDictionary *stringTable = nil;
 }
 
 -(void)setIdentifier:(Identifier *)identifier forToken:(Token *)token {
-    [self.symbolTable setObject:identifier forKey:token];
+    if ([self.symbolTable objectForKey:token]) {
+        [self error:[NSString stringWithFormat:@"redefinition of previously defined identifier %@", [(WordToken *)token lexeme]] line:token.line];
+    }
+    else {
+        identifier.scopeNumber = scopeCount;
+        [self.symbolTable setObject:identifier forKey:token];
+    }
 }
 
 -(Prototype *)prototypeForToken:(Token *)token {
@@ -92,10 +100,15 @@ static NSMutableDictionary *stringTable = nil;
     static Environment *globalScope = nil;
     if (globalScope == nil) {
         globalScope = [[Environment alloc] initWithPreviousEnvironment:nil];
+        scopeCount--;
         funcTable = [[NSMutableDictionary alloc] init];
         stringTable = [[NSMutableDictionary alloc] init];
     }
     return globalScope;
+}
+
++(void)resetScopeCount {
+    scopeCount = 0;
 }
 
 @end

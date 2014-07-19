@@ -9,6 +9,8 @@
 #import "Expression.h"
 #import "Temporary.h"
 #import "Label.h"
+#import "ArrayType.h"
+#import "PointerType.h"
 
 @implementation Expression
 
@@ -32,7 +34,7 @@
 }
 
 -(Expression *)convert:(TypeToken *)to {
-    if (self.type == to) {
+    if ([self.type isEqual:to]) {
         return [self reduce];
     }
     else if ((self.type == TypeToken.intType || self.type == TypeToken.charType) && to == TypeToken.floatType) {
@@ -53,6 +55,14 @@
     else if (self.type == TypeToken.charType && to == TypeToken.intType) {
         Temporary *temp = [[Temporary alloc] initWithType:to];
         [self emit:[NSString stringWithFormat:@"%@ = zext %@ %@ to %@", temp, self.type, [self reduce], to]];
+        return temp;
+    }
+    else if ([self.type isKindOfClass:[ArrayType class]] && [to isKindOfClass:[PointerType class]]) {
+        if (![[(ArrayType *)self.type to] isEqual:[(PointerType *)to to]]) {
+            [self error:@"array type must be of the same type as pointer for conversion"];
+        }
+        Temporary *temp = [[Temporary alloc] initWithType:to];
+        [self emit:[NSString stringWithFormat:@"%@ = getelementptr %@ %@, i32 0, i32 0", temp, self.type, self]];
         return temp;
     }
     else {

@@ -10,7 +10,7 @@
 #import "Function.h"
 #import "Prototype.h"
 #import "Statement.h"
-
+#import "Label.h"
 #import "Identifier.h"
 
 @implementation Function
@@ -63,6 +63,7 @@
     [self emitLabel:before];
     [body generateCodeWithBeforeLabel:before afterLabel:after];
     if ([body needsAfterLabel]) {
+        after.referenced = YES;
         [self emitLabel:after];
     }
     [self emit:@"}"];

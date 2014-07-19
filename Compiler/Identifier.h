@@ -14,6 +14,8 @@
 @property(nonatomic, assign, getter = isAllocated) BOOL allocated;
 @property(nonatomic, assign, getter = isArgument) BOOL isArgument;
 @property(nonatomic, assign, getter = isGlobal) BOOL global;
+@property(nonatomic, assign) NSString *enclosingFuncName;
+@property(nonatomic, assign) NSUInteger scopeNumber;
 
 -(id)initWithOperator:(Token *)newOperator type:(TypeToken *)newType offset:(NSInteger)newOffset;
 

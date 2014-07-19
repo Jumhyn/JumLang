@@ -30,5 +30,6 @@
 -(void)initializeStrings;
 
 +(Environment *)globalScope;
++(void)resetScopeCount;
 
 @end

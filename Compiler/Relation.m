@@ -37,7 +37,7 @@
 }
 
 -(TypeToken *)checkType1:(TypeToken *)type1 againstType2:(TypeToken *)type2 {
-    if (type1 == type2) {
+    if (type1.isNumeric && type2.isNumeric) {
         return TypeToken.boolType;
     }
     else {

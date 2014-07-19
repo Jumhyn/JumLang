@@ -24,18 +24,53 @@
 }
 
 -(Expression *)convert:(TypeToken *)to {
-    if (self.type == to) {
+    if ([self.type isEqual:to]) {
         return [self reduce];
     }
-    else if (self.type == TypeToken.intType && to == TypeToken.floatType) {
-        return [[Constant alloc] initWithOperator:[[FloatToken alloc] initWithValue:(double)[(NumToken *)self.operator value]] type:TypeToken.floatType];
+    else if (self.type == TypeToken.intType) {
+        if (to == TypeToken.floatType) {
+            return [[Constant alloc] initWithFloat:(double)[(NumToken *)self.operator value]];
+        }
+        else if (to == TypeToken.charType) {
+            NSInteger value = [(NumToken *)self.operator value];
+            if (value <= CHAR_MAX && value >= CHAR_MIN) {
+                self.type = TypeToken.charType;
+                return self;
+            }
+            else {
+                return [super convert:to];
+            }
+        }
+        else {
+            return [super convert:to];
+        }
     }
-    else if (self.type == TypeToken.floatType && to == TypeToken.intType) {
-        return [[Constant alloc] initWithOperator:[[NumToken alloc] initWithValue:(NSInteger)[(FloatToken *)self.operator value]] type:TypeToken.intType];
+    else if (self.type == TypeToken.floatType) {
+        if (to == TypeToken.intType) {
+            return [[Constant alloc] initWithInteger:(NSInteger)[(FloatToken *)self.operator value]];
+        }
+        else if (to == TypeToken.charType) {
+            Constant *ret = [[Constant alloc] initWithInteger:(NSInteger)[(FloatToken *)self.operator value]];
+            return [ret convert:to];
+        }
+        else {
+            return [super convert:to];
+        }
+    }
+    else if (self.type == TypeToken.charType) {
+        if (to == TypeToken.intType) {
+            self.type = TypeToken.intType;
+            return self;
+        }
+        else if (to == TypeToken.floatType) {
+            return [[Constant alloc] initWithFloat:(double)[(NumToken *)self.operator value]];
+        }
+        else {
+            return [super convert:to];
+        }
     }
     else {
-        [self error:[NSString stringWithFormat:@"type error when trying to convert %@ to %@", self.type, to]];
-        return nil;
+        return [super convert:to];
     }
 }
 

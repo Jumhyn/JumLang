@@ -94,11 +94,15 @@
 -(Constant *)constant {
     Constant *expr = nil;
     switch (lookahead.type) {
-        case TOK_NUM:
+        case TOK_NUM: {
+            NSInteger value = [(NumToken *)lookahead value];
             expr = [[Constant alloc] initWithInteger:[(NumToken *)lookahead value]];
+            if (value <= CHAR_MAX && value >= CHAR_MIN) {
+                expr.type = TypeToken.charType;
+            }
             [self match:TOK_NUM];
             return expr;
-
+        }
         case TOK_FLOAT:
             expr = [[Constant alloc] initWithFloat:[(FloatToken *)lookahead value]];
             [self match:TOK_FLOAT];
@@ -119,6 +123,7 @@
 }
 
 -(Function *)function {
+    [Environment resetScopeCount];
     Environment *savedEnvironment = topEnvironment;
     topEnvironment = [[Environment alloc] initWithPreviousEnvironment:topEnvironment];
     Prototype *proto = [self prototype];
@@ -253,6 +258,7 @@
             if (lookahead.type == ';') {
                 usedSpace -= t.width;
                 Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+                identifier.enclosingFuncName = [(WordToken *)currentFunc.identifier.operator lexeme];
                 [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:';'];
                 return [self statement];
@@ -260,6 +266,7 @@
             else if (lookahead.type == '=') {
                 usedSpace -= t.width;
                 Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:t offset:usedSpace];
+                identifier.enclosingFuncName = [(WordToken *)currentFunc.identifier.operator lexeme];
                 [topEnvironment setIdentifier:identifier forToken:idTok];
                 [self match:'='];
                 expr = [self or];
@@ -277,6 +284,7 @@
                 usedSpace -= t.width;
                 [self match:']'];
                 Identifier *identifier = [[Identifier alloc] initWithOperator:idTok type:array offset:usedSpace];
+                identifier.enclosingFuncName = [(WordToken *)currentFunc.identifier.operator lexeme];
                 if (lookahead.type == '=') {
                     [self match:'='];
                     if (lookahead.type != TOK_STR) {
